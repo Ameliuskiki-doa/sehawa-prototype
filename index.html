@@ -1,0 +1,1245 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sehawa Operasional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF2F1; --surface:#FFFFFF; --surface-2:#E4ECEA; --ink:#122B2C; --muted:#56696A; --line:#D0DBD9;
+  --accent:#0B6B67; --accent-ink:#FFFFFF; --accent-soft:#D3EAE7;
+  --personal:#2B5FC4; --corporate:#9A5418; --after:#23774A;
+  --ok:#1D7641; --warn:#A35F00; --bad:#B02E26; --info:#2B5FC4; --violet:#6546BC; --neutral:#5E7172;
+  --a-admin:#44576A; --a-teknisi:#A5520F; --a-customer:#0F6F86; --a-sistem:#23774A; --a-owner:#A22A63;
+  --shadow:0 1px 2px rgba(18,43,44,.06),0 6px 20px rgba(18,43,44,.06);
+  --r:10px;
+  --sans:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1819; --surface:#152324; --surface-2:#1C2D2E; --ink:#E2ECEB; --muted:#91A5A5; --line:#2A3E3F;
+    --accent:#3FB4AC; --accent-ink:#06201F; --accent-soft:#163A39;
+    --personal:#7EA8F6; --corporate:#E3A269; --after:#6CC792;
+    --ok:#5CC98A; --warn:#E6A83E; --bad:#F07C72; --info:#7EA8F6; --violet:#AB95F2; --neutral:#91A5A5;
+    --a-admin:#9CB0C4; --a-teknisi:#EE9A55; --a-customer:#5EC3DA; --a-sistem:#6CC792; --a-owner:#EE82B4;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1819; --surface:#152324; --surface-2:#1C2D2E; --ink:#E2ECEB; --muted:#91A5A5; --line:#2A3E3F;
+  --accent:#3FB4AC; --accent-ink:#06201F; --accent-soft:#163A39;
+  --personal:#7EA8F6; --corporate:#E3A269; --after:#6CC792;
+  --ok:#5CC98A; --warn:#E6A83E; --bad:#F07C72; --info:#7EA8F6; --violet:#AB95F2; --neutral:#91A5A5;
+  --a-admin:#9CB0C4; --a-teknisi:#EE9A55; --a-customer:#5EC3DA; --a-sistem:#6CC792; --a-owner:#EE82B4;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4{margin:0;text-wrap:balance;line-height:1.25}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:.9em;letter-spacing:-.01em}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+/* shell */
+.app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100%}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100dvh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 12px;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 16px}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.brand b{font-size:17px;font-weight:800;letter-spacing:-.02em;display:block;line-height:1.1}
+.brand span{font-size:11.5px;color:var(--muted)}
+.nav-sep{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:14px 10px 4px;font-weight:700}
+.nav{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;border:0;background:none;text-align:left;cursor:pointer;color:var(--ink);font-weight:500;width:100%}
+.nav:hover{background:var(--surface-2)}
+.nav.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.nav .badge{margin-left:auto}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:11px;font-weight:700;display:inline-grid;place-items:center}
+.badge.soft{background:var(--surface-2);color:var(--muted)}
+.side-foot{margin-top:auto;padding:12px 8px 0;border-top:1px solid var(--line);display:grid;gap:8px}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 28px;flex-wrap:wrap}
+.top .menu-btn{display:none}
+.proto{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);border:1px dashed var(--warn);border-radius:6px;padding:2px 8px}
+.role-wrap{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.content{padding:24px 28px 72px;display:grid;gap:18px;align-content:start;max-width:1320px;width:100%}
+.scrim{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:270px;z-index:50;transform:translateX(-105%);transition:transform .2s;box-shadow:var(--shadow)}
+  .side.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40}
+  .top{padding:10px 16px}
+  .top .menu-btn{display:inline-grid}
+  .content{padding:18px 16px 72px}
+}
+
+/* primitives */
+.page-head{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.page-head .sub{color:var(--muted);margin-top:4px;max-width:70ch}
+.page-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.card.flush{padding:0;gap:0}
+.card h2{font-size:15px;font-weight:700}
+.card-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card-h .right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.stack{display:grid;gap:18px;align-content:start;min-width:0}
+@media (max-width:1100px){.grid2,.grid3{grid-template-columns:1fr}}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
+.btn.ghost{border-color:transparent;background:none}
+.btn.sm{padding:5px 10px;font-size:12.5px}
+.btn.lg{padding:12px 18px;font-size:15px;width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.icon-btn{border:0;background:none;padding:6px;border-radius:8px;cursor:pointer;display:inline-grid;place-items:center;color:var(--muted)}
+.icon-btn:hover{background:var(--surface-2);color:var(--ink)}
+.pill{--c:var(--neutral);display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);white-space:nowrap;line-height:1.6}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
+.t-ok{--c:var(--ok)}.t-warn{--c:var(--warn)}.t-bad{--c:var(--bad)}.t-info{--c:var(--info)}.t-violet{--c:var(--violet)}.t-neutral{--c:var(--neutral)}
+.jalur{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid currentColor}
+.j-personal{color:var(--personal)}.j-corporate{color:var(--corporate)}.j-after{color:var(--after)}
+.actor{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;color:#fff;white-space:nowrap}
+:root:not([data-theme="light"]) .actor{color:var(--surface)}
+.actor{background:var(--c,var(--a-admin))}
+.av{width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:700;background:var(--surface-2);border:2px solid var(--surface);color:var(--ink)}
+.avs{display:flex}.avs .av+.av{margin-left:-8px}
+.kv{display:grid;grid-template-columns:130px minmax(0,1fr);gap:8px 12px;font-size:13.5px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.divider{height:1px;background:var(--line)}
+.empty{color:var(--muted);font-size:13px;padding:12px;border:1px dashed var(--line);border-radius:8px;text-align:center}
+
+/* tabs, toolbar */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:9px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:5px 11px;border-radius:7px;cursor:pointer;font-weight:600;font-size:12.5px;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.search{padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:0;width:260px;max-width:100%}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{border:0;background:none;padding:9px 12px;cursor:pointer;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tab.on{color:var(--ink);border-bottom-color:var(--accent)}
+.tcount{font-size:11px;background:var(--surface-2);border-radius:9px;padding:0 7px;color:var(--muted)}
+
+/* table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer}
+tr.click:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+td .t1{font-weight:600}
+td .t2{color:var(--muted);font-size:12.5px}
+td.r,th.r{text-align:right}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;text-align:left;cursor:pointer}
+.kpi:hover{border-color:var(--accent)}
+.kpi .l{font-size:11.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.kpi .v{font-size:26px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12.5px;color:var(--muted)}
+.kpi.alert{border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+.kpi.alert .v{color:var(--bad)}
+
+/* todo list */
+.todo{display:grid}
+.todo-i{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.todo-i:last-child{border-bottom:0}
+.todo-i .bar{align-self:stretch;border-radius:3px;background:var(--c)}
+.todo-i .tt{font-weight:600}
+.todo-i .mm{color:var(--muted);font-size:12.5px}
+
+/* agenda */
+.agenda{display:grid;gap:8px}
+.ag{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--surface-2);cursor:pointer;border:0;text-align:left;width:100%}
+.ag:hover{outline:1px solid var(--accent)}
+.ag .jam{font-family:var(--mono);font-weight:500}
+
+/* stepper */
+.stepper{display:flex;gap:0;list-style:none;margin:0;padding:0;flex-wrap:wrap;row-gap:10px}
+.stepper li{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.stepper li+li::before{content:"";width:26px;height:2px;background:var(--line);margin:0 8px}
+.stepper .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:11px;background:var(--surface)}
+.stepper li.done{color:var(--ink)}
+.stepper li.done .dot{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stepper li.on{color:var(--accent)}
+.stepper li.on .dot{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.stepper li.fail{color:var(--bad)}
+.stepper li.fail .dot{border-color:var(--bad);background:var(--bad);color:#fff}
+
+/* callouts */
+.note{display:flex;gap:10px;padding:11px 13px;border-radius:8px;background:color-mix(in srgb,var(--c,var(--info)) 10%,transparent);border:1px solid color-mix(in srgb,var(--c,var(--info)) 30%,transparent);font-size:13px;align-items:flex-start}
+.note svg{flex:none;color:var(--c,var(--info));margin-top:1px}
+.note.warn{--c:var(--warn)}.note.bad{--c:var(--bad)}.note.ok{--c:var(--ok)}
+.open{border:1.5px dashed color-mix(in srgb,var(--violet) 55%,var(--line));border-radius:9px;padding:11px 13px;display:grid;gap:4px;font-size:13px;background:color-mix(in srgb,var(--violet) 5%,transparent)}
+.open-tag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin-right:6px}
+.open-a{color:var(--muted);font-size:12.5px}
+
+/* forms */
+.form{display:grid;gap:14px}
+.field{display:grid;gap:5px}
+.flabel{font-size:12.5px;font-weight:600;color:var(--muted)}
+.fhint{font-size:12px;color:var(--muted)}
+.input,select.input,textarea.input{padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface);width:100%;min-width:0}
+textarea.input{min-height:78px;resize:vertical}
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.check input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.check b{display:block;font-size:13.5px}
+.check span{font-size:12.5px;color:var(--muted)}
+.check.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.tpick{display:grid;gap:6px}
+.form-foot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding-top:4px}
+
+/* modal */
+.mback{position:fixed;inset:0;background:rgba(8,20,20,.45);z-index:60;display:grid;place-items:center;padding:16px;overflow-y:auto}
+.modal{background:var(--surface);border-radius:14px;width:min(560px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3);display:grid;max-height:calc(100dvh - 32px);grid-template-rows:auto minmax(0,1fr)}
+.modal.wide{width:min(720px,100%)}
+.mhead{display:flex;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.mhead h3{font-size:16px;font-weight:700}
+.mhead .icon-btn{margin-left:auto}
+.mbody{padding:18px;overflow-y:auto}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:70;box-shadow:var(--shadow);max-width:calc(100% - 32px);display:flex;gap:8px;align-items:center}
+
+/* photos */
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.ph{aspect-ratio:1;max-width:100%;border-radius:8px;overflow:hidden;background:var(--surface-2);display:grid;place-items:center;position:relative;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph .cap{position:absolute;inset:auto 0 0 0;font-size:10.5px;padding:3px 6px;background:color-mix(in srgb,var(--surface) 85%,transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph.ph-fake{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 28%,var(--surface-2)),var(--surface-2));color:var(--muted)}
+.upl{aspect-ratio:1;border:1.5px dashed var(--line);border-radius:8px;display:grid;place-items:center;align-content:center;gap:4px;cursor:pointer;color:var(--muted);font-size:12px;font-weight:600;text-align:center;padding:6px}
+.upl:hover{border-color:var(--accent);color:var(--accent)}
+.upl input{position:absolute;width:1px;height:1px;opacity:0}
+.file-chip{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:var(--surface-2)}
+
+/* flow page */
+.lanes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:1000px){.lanes{grid-template-columns:1fr}}
+.lane{border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:18px;display:grid;gap:10px;border-top:4px solid var(--lc)}
+.lane-h{display:grid;gap:4px}
+.lane-h h2{font-size:18px;font-weight:800;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.lane-h p{color:var(--muted);font-size:13px}
+.flow{display:grid;gap:0;list-style:none;margin:0;padding:0}
+.fstep{position:relative;padding:0 0 14px 26px}
+.fstep::before{content:"";position:absolute;left:8px;top:18px;bottom:0;width:2px;background:color-mix(in srgb,var(--lc) 35%,var(--line))}
+.fstep:last-child::before{display:none}
+.fstep::after{content:"";position:absolute;left:3px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2.5px solid var(--lc)}
+.fstep.dec::after{border-radius:2px;transform:rotate(45deg);border-color:var(--warn);background:var(--warn)}
+.fbox{display:grid;gap:5px}
+.fline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.fline .tx{font-weight:600}
+.fnote{font-size:12.5px;color:var(--muted)}
+.fgo{border:0;background:none;color:var(--accent);font-weight:700;font-size:12px;cursor:pointer;padding:0;justify-self:start}
+.fgo:hover{text-decoration:underline}
+.decision{font-size:13px;color:var(--warn);font-weight:600}
+.after-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:1000px){.after-grid{grid-template-columns:1fr}}
+.after-col{display:grid;gap:10px;align-content:start}
+.after-col h3{font-size:14px;font-weight:700}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+
+/* calendar */
+.cal-wrap{overflow-x:auto}
+.cal{display:grid;grid-template-columns:150px repeat(7,minmax(128px,1fr));min-width:1060px}
+.cal .hd{padding:10px;font-size:12px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.05em}
+.cal .hd.today{color:var(--accent)}
+.cal .who{padding:12px 10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;font-weight:600}
+.cal .cell{padding:6px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:grid;gap:5px;align-content:start;min-height:84px}
+.cal .cell.today{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.cal .cell.clash{background:color-mix(in srgb,var(--bad) 7%,transparent)}
+.ev{border:0;text-align:left;border-radius:6px;padding:5px 7px;font-size:12px;cursor:pointer;background:color-mix(in srgb,var(--c) 14%,var(--surface));border-left:3px solid var(--c);display:grid;gap:1px;color:var(--ink);width:100%}
+.ev b{font-family:var(--mono);font-weight:500;font-size:11px}
+.ev.faded{opacity:.5}
+
+/* teknisi mobile view */
+.tk-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px;cursor:pointer;text-align:left;width:100%}
+.tk-card:hover{border-color:var(--accent)}
+.tk-card .h{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tk-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.pay-box{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.qr{display:grid;grid-template-columns:repeat(21,1fr);width:128px;aspect-ratio:1;max-width:100%;padding:8px;background:#fff;border-radius:8px;border:1px solid #d0d0d0}
+.qr i.on{background:#111}
+.bars{display:grid;gap:8px}
+.bar-r{display:grid;grid-template-columns:90px minmax(0,1fr) 36px;gap:10px;align-items:center;font-size:12.5px}
+.bar-t{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.bar-f{height:100%;border-radius:5px;background:var(--c,var(--accent))}
+.progress{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent)}
+.timeline{display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.timeline li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;font-size:13px}
+.timeline .d{color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const {useState,useEffect,useMemo,useContext,createContext}=React;
+const html=htm.bind(React.createElement);
+const Ctx=createContext(null);
+const useApp=()=>useContext(Ctx);
+
+/* ---------- tanggal & format ---------- */
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const T0=new Date();T0.setHours(0,0,0,0);
+const T=iso(T0);
+const addDays=(s,n)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return iso(d)};
+const D=n=>addDays(T,n);
+const diff=(a,b)=>Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5);
+const BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const HR=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const fd=s=>{if(!s)return '—';const d=new Date(s+'T00:00:00');return d.getDate()+' '+BLN[d.getMonth()]+' '+d.getFullYear()};
+const fds=s=>{if(!s)return '—';const d=new Date(s+'T00:00:00');return HR[d.getDay()]+', '+d.getDate()+' '+BLN[d.getMonth()]};
+const rel=s=>{if(!s)return '';const n=diff(T,s);if(n===0)return 'hari ini';if(n===1)return 'besok';if(n===-1)return 'kemarin';return n>0?n+' hari lagi':(-n)+' hari lalu'};
+const rp=n=>'Rp '+Math.round(n||0).toLocaleString('id-ID');
+const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
+const byId=(arr,id)=>arr.find(x=>x.id===id);
+const nextId=(arr,prefix,w)=>{const n=Math.max(0,...arr.map(x=>parseInt(String(x.id).replace(/\D/g,''),10)||0))+1;return prefix+String(n).padStart(w,'0')};
+const initials=n=>n.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+/* ---------- data contoh ---------- */
+function seed(){
+  const teknisi=[
+    {id:'T1',nama:'Budi Santoso',senior:true},
+    {id:'T2',nama:'Andi Pratama',senior:false},
+    {id:'T3',nama:'Rizky Hidayat',senior:true},
+    {id:'T4',nama:'Dedi Kurniawan',senior:false},
+  ];
+  const customers=[
+    {id:'C1',nama:'Ratna Wijaya',tipe:'personal',hp:'0812-8811-2045',alamat:'Jl. Kenari III No. 8, Bintaro'},
+    {id:'C2',nama:'Hendra Gunawan',tipe:'personal',hp:'0813-1402-7781',alamat:'Jl. Kemang Raya No. 41, Jakarta Selatan'},
+    {id:'C3',nama:'PT Mitra Logistik Nusantara',tipe:'corporate',hp:'021-8990-4412',alamat:'Kawasan Industri Jababeka Blok F2, Cikarang',pic:'Ibu Sari (GA)'},
+    {id:'C4',nama:'Klinik Sehat Sentosa',tipe:'corporate',hp:'021-7350-2210',alamat:'Jl. Raya Ciputat No. 120, Tangerang Selatan',pic:'dr. Fajar'},
+    {id:'C5',nama:'Yusuf Hamdani',tipe:'personal',hp:'0857-2210-9934',alamat:'Perum Griya Asri Blok C/12, Depok'},
+    {id:'C6',nama:'CV Kopi Tepian',tipe:'corporate',hp:'0811-9020-3355',alamat:'Jl. Tebet Barat Dalam No. 5, Jakarta Selatan',pic:'Mas Bima'},
+    {id:'C7',nama:'Lestari Handayani',tipe:'personal',hp:'0812-6677-0198',alamat:'Jl. Cempaka Putih Tengah 17, Jakarta Pusat'},
+    {id:'C8',nama:'Maya Puspita',tipe:'personal',hp:'0878-5510-2267',alamat:'Cluster Alamanda No. 22, BSD'},
+    {id:'C9',nama:'Tono Sudarsono',tipe:'personal',hp:'0819-3345-8820',alamat:'Jl. Pondok Kelapa No. 3, Jakarta Timur'},
+    {id:'C10',nama:'Agus Salim',tipe:'personal',hp:'0821-7788-1402',alamat:'Jl. Rawamangun Muka No. 14, Jakarta Timur'},
+  ];
+  const U=(id,c,merk,tipe,seri,lokasi,tgl,jobId,servis)=>({id,customerId:c,merk,tipe,seri,lokasi,tglPasang:tgl,jobId,servisTerakhir:servis||tgl});
+  const units=[
+    U('U-001','C1','Daikin','Split 1 PK','FTKC25UVM4-2208341','Kamar utama',D(-120),'J-0198'),
+    U('U-002','C1','Daikin','Split ½ PK','FTKC15UVM4-2208377','Kamar anak',D(-120),'J-0198'),
+    U('U-003','C8','Panasonic','Split 1 PK','CS-PN9WKJ-3310928','Ruang keluarga',D(-100),'J-0205'),
+    U('U-004','C7','LG','Split 1 PK','T09EV4-110482A','Kamar depan',D(-40),'J-0217'),
+    U('U-005','C7','LG','Split 1 PK','T09EV4-110519A','Kamar belakang',D(-40),'J-0217'),
+    U('U-006','C7','LG','Split 1½ PK','T13EV4-208811B','Ruang tamu',D(-40),'J-0217'),
+    U('U-007','C3','Daikin','Split Duct 5 PK','FDBRN125-7710021','Gudang A · zona 1',D(-10),'J-0224'),
+    U('U-008','C3','Daikin','Split Duct 5 PK','FDBRN125-7710022','Gudang A · zona 2',D(-10),'J-0224'),
+    U('U-009','C3','Daikin','Split Duct 5 PK','FDBRN125-7710031','Gudang B',D(-10),'J-0224'),
+    U('U-010','C3','Daikin','Split 2 PK','FTKC50UVM4-4401187','Kantor lt. 2 · meeting',D(-10),'J-0224'),
+    U('U-011','C3','Daikin','Split 2 PK','FTKC50UVM4-4401192','Kantor lt. 2 · open space',D(-10),'J-0224'),
+    U('U-012','C3','Daikin','Split 1 PK','FTKC25UVM4-2209910','Ruang server',D(-10),'J-0224'),
+    U('U-013','C9','Sharp','Split 1 PK','AH-A9UCY-7700213','Kamar tidur',D(-400),null,D(-150)),
+    U('U-014','C2','Gree','Split 1½ PK','GWC-12F5S-551902','Ruang tamu',D(-2),'J-0229'),
+    U('U-015','C2','Gree','Split 1 PK','GWC-09F5S-551947','Kamar utama',D(-2),'J-0229'),
+    U('U-016','C4','Panasonic','Split 2 PK','CS-PN18WKJ-6620011','Ruang tunggu',D(-1),'J-0230'),
+    U('U-017','C4','Panasonic','Split 2 PK','CS-PN18WKJ-6620014','Poli umum',D(-1),'J-0230'),
+    U('U-018','C4','Panasonic','Split 2 PK','CS-PN18WKJ-6620019','Poli gigi',D(-1),'J-0230'),
+  ];
+  const J=o=>({unitIds:[],foto:[],konfirmasi:false,bast:null,reschedule:[],halangan:null,catatan:'',garansiHari:90,survey:null,rencanaUnit:0,jam:'09:00',sumber:'lead',gratis:false,klaimId:null,leadId:null,selesaiAt:null,...o,bayar:{status:'belum',dp:0,dibayar:[],ditagih:null,...(o.bayar||{})}});
+  const F=(...n)=>n.map(x=>({name:x,src:null}));
+  const jobs=[
+    J({id:'J-0198',customerId:'C1',jenis:'Instalasi',jalur:'personal',status:'selesai',jadwal:D(-120),selesaiAt:D(-120),teknisi:['T2','T4'],nilai:8100000,rencanaUnit:2,foto:F('kamar-utama.jpg','kamar-anak.jpg'),konfirmasi:true,bayar:{status:'lunas',dibayar:[{tgl:D(-120),nominal:8100000,metode:'QRIS',jenis:'Pembayaran'}]}}),
+    J({id:'J-0205',customerId:'C8',jenis:'Instalasi',jalur:'personal',status:'selesai',jadwal:D(-100),selesaiAt:D(-100),teknisi:['T1'],nilai:4300000,rencanaUnit:1,foto:F('ruang-keluarga.jpg'),konfirmasi:true,bayar:{status:'lunas',dibayar:[{tgl:D(-99),nominal:4300000,metode:'Transfer BCA',jenis:'Pembayaran'}]}}),
+    J({id:'J-0217',customerId:'C7',jenis:'Instalasi',jalur:'personal',status:'selesai',jadwal:D(-40),selesaiAt:D(-40),teknisi:['T3','T4'],nilai:12600000,rencanaUnit:3,foto:F('kamar-depan.jpg','kamar-belakang.jpg','ruang-tamu.jpg'),konfirmasi:true,bayar:{status:'lunas',dibayar:[{tgl:D(-40),nominal:12600000,metode:'Transfer BCA',jenis:'Pembayaran'}]}}),
+    J({id:'J-0224',customerId:'C3',leadId:'L-0140',jenis:'Instalasi',jalur:'corporate',status:'selesai',jadwal:D(-13),jam:'08:00',selesaiAt:D(-10),teknisi:['T1','T2','T3'],nilai:96000000,rencanaUnit:6,foto:F('gudang-a1.jpg','gudang-a2.jpg','gudang-b.jpg','kantor-lt2.jpg'),konfirmasi:true,bast:{name:'BAST-J-0224-ttd.pdf',src:null},catatan:'Dikerjakan 3 hari (gudang lalu kantor).',bayar:{status:'dp',dp:28800000,ditagih:D(-9),dibayar:[{tgl:D(-20),nominal:28800000,metode:'Transfer BCA',jenis:'DP 30%'}]}}),
+    J({id:'J-0227',customerId:'C10',jenis:'Instalasi',jalur:'personal',status:'terjadwal',jadwal:D(0),jam:'14:00',teknisi:['T1'],nilai:3900000,rencanaUnit:1,halangan:{alasan:'Customer tidak di lokasi',catatan:'Pak Agus minta diundur ke lusa, sedang di luar kota.',tgl:D(0),oleh:'T1'}}),
+    J({id:'J-0229',customerId:'C2',jenis:'Instalasi',jalur:'personal',status:'selesai',jadwal:D(-2),selesaiAt:D(-2),teknisi:['T2'],nilai:7800000,rencanaUnit:2,foto:F('ruang-tamu.jpg','kamar-utama.jpg'),konfirmasi:true}),
+    J({id:'J-0230',customerId:'C4',leadId:'L-0143',jenis:'Instalasi',jalur:'corporate',status:'proses',jadwal:D(-1),jam:'08:00',teknisi:['T1','T3','T4'],nilai:58000000,rencanaUnit:8,foto:F('lantai1-tunggu.jpg'),catatan:'Pengerjaan bertahap: lantai 1 (3 unit) selesai, lantai 2 dilanjutkan.',bayar:{status:'dp',dp:23200000,dibayar:[{tgl:D(-6),nominal:23200000,metode:'Transfer BCA',jenis:'DP 40%'}]}}),
+    J({id:'J-0231',customerId:'C5',leadId:'L-0144',jenis:'Instalasi',jalur:'personal',status:'terjadwal',jadwal:D(0),jam:'09:00',teknisi:['T2','T4'],nilai:4250000,rencanaUnit:1,catatan:'Unit dibeli customer sendiri (Sharp 1 PK). Sehawa pasang + pipa 5 m.'}),
+    J({id:'J-0232',customerId:'C6',jenis:'Tambah unit',jalur:'corporate',status:'menunggu survey',jadwal:null,teknisi:[],nilai:0,rencanaUnit:2,sumber:'repeat',survey:{tgl:D(3),surveyor:'T3',hasil:''},catatan:'Tambah 2 unit untuk area outdoor seating.'}),
+    J({id:'J-0233',customerId:'C9',jenis:'Servis',jalur:'personal',status:'terjadwal',jadwal:D(1),jam:'13:00',teknisi:['T3'],nilai:450000,sumber:'repeat',unitIds:['U-013'],catatan:'AC kurang dingin, cek & isi freon.'}),
+  ];
+  const leads=[
+    {id:'L-0151',nama:'Dewi Anggraini',hp:'0812-9090-1133',jalur:'personal',sumber:'WhatsApp',kebutuhan:'Pasang 1 unit AC 1 PK di kamar tidur',alamat:'Jl. Melati 9, Pamulang',status:'baru',created:D(0),followups:[]},
+    {id:'L-0150',nama:'Arief Setiawan',hp:'0813-4455-2019',jalur:'personal',sumber:'WhatsApp',kebutuhan:'Cuci + isi freon 3 unit',alamat:'Jl. Bangka XI No. 2, Mampang',status:'dikontak',created:D(-5),followups:[{tgl:D(-5),catatan:'Kirim estimasi harga via WA'},{tgl:D(-3),catatan:'Belum dibalas, follow-up ke-2'},{tgl:D(-1),catatan:'Dibaca, belum dibalas'}]},
+    {id:'L-0149',nama:'Toko Roti Mentari',hp:'0856-1200-7781',jalur:'personal',sumber:'WhatsApp',kebutuhan:'Pasang 4 unit AC 2 PK untuk toko & dapur',alamat:'Jl. Dewi Sartika No. 88, Cawang',status:'dikontak',created:D(-2),followups:[{tgl:D(-2),catatan:'Pemilik minta dicek lokasi dulu, jalur pipa panjang'}],perluSurvey:true,perluDP:true,estimasi:24000000},
+    {id:'L-0148',nama:'PT Graha Karya Properti',hp:'021-5790-6612',jalur:'corporate',sumber:'Referral',kebutuhan:'Instalasi 12 unit AC kantor lt. 3',alamat:'Graha Karya Lt. 3, Jl. TB Simatupang Kav. 9',status:'survey',created:D(-6),followups:[{tgl:D(-6),catatan:'Referral dari PT Mitra Logistik. PIC: Pak Rudi'}],survey:{tgl:D(2),jam:'10:00',surveyor:'T1',hasil:''}},
+    {id:'L-0147',nama:'Sekolah Bina Insani',hp:'021-8840-3321',jalur:'corporate',sumber:'Website',kebutuhan:'Instalasi 18 unit AC ruang kelas',alamat:'Jl. Kalimalang No. 17, Bekasi',status:'penawaran',created:D(-15),followups:[{tgl:D(-15),catatan:'Form website, telepon ke bagian sarpras'}],survey:{tgl:D(-9),jam:'09:00',surveyor:'T3',hasil:'18 kelas, listrik 3 phase tersedia. Perlu bracket outdoor di dinding lt. 2.'},penawaran:{nilai:86500000,status:'nego',tgl:D(-4)}},
+    {id:'L-0146',nama:'Hotel Kenanga',hp:'022-4201-5566',jalur:'corporate',sumber:'Referral',kebutuhan:'Penggantian 10 unit AC kamar',alamat:'Jl. Kenanga Raya 5, Bogor',status:'penawaran',created:D(-20),followups:[{tgl:D(-20),catatan:'Telepon manajer engineering'}],survey:{tgl:D(-14),jam:'10:00',surveyor:'T1',hasil:'10 kamar lantai 2, unit lama dibongkar.'},penawaran:{nilai:64000000,status:'disetujui',tgl:D(-7)}},
+    {id:'L-0145',nama:'RM Padang Salero',hp:'0812-3300-9911',jalur:'personal',sumber:'WhatsApp',kebutuhan:'Pasang 2 unit AC 2 PK',alamat:'Jl. Raya Bogor Km 22',status:'batal',created:D(-12),followups:[{tgl:D(-12),catatan:'Kirim estimasi'}],alasanBatal:'Harga tidak cocok',catatanBatal:'Membandingkan dengan vendor lain.'},
+    {id:'L-0144',nama:'Yusuf Hamdani',hp:'0857-2210-9934',jalur:'personal',sumber:'WhatsApp',kebutuhan:'Pasang 1 unit AC 1 PK (unit dari customer)',alamat:'Perum Griya Asri Blok C/12, Depok',status:'deal',created:D(-4),followups:[{tgl:D(-4),catatan:'Setuju harga pasang'}],customerId:'C5',jobId:'J-0231'},
+    {id:'L-0143',nama:'Klinik Sehat Sentosa',hp:'021-7350-2210',jalur:'corporate',sumber:'Website',kebutuhan:'Instalasi 8 unit AC klinik',alamat:'Jl. Raya Ciputat No. 120, Tangerang Selatan',status:'deal',created:D(-25),followups:[],survey:{tgl:D(-18),jam:'10:00',surveyor:'T1',hasil:'2 lantai, 8 titik.'},penawaran:{nilai:58000000,status:'disetujui',tgl:D(-10)},dp:{persen:40,nilai:23200000,tgl:D(-6)},customerId:'C4',jobId:'J-0230'},
+    {id:'L-0140',nama:'PT Mitra Logistik Nusantara',hp:'021-8990-4412',jalur:'corporate',sumber:'Referral',kebutuhan:'Instalasi 6 unit AC gudang & kantor',alamat:'Kawasan Industri Jababeka Blok F2, Cikarang',status:'deal',created:D(-35),followups:[],survey:{tgl:D(-28),jam:'09:00',surveyor:'T3',hasil:'Gudang butuh split duct.'},penawaran:{nilai:96000000,status:'disetujui',tgl:D(-22)},dp:{persen:30,nilai:28800000,tgl:D(-20)},customerId:'C3',jobId:'J-0224'},
+  ];
+  const garansi=[
+    {id:'G-0101',jobId:'J-0198',customerId:'C1',mulai:D(-120),hari:90},
+    {id:'G-0104',jobId:'J-0205',customerId:'C8',mulai:D(-100),hari:90},
+    {id:'G-0109',jobId:'J-0217',customerId:'C7',mulai:D(-40),hari:90},
+    {id:'G-0112',jobId:'J-0224',customerId:'C3',mulai:D(-10),hari:180},
+    {id:'G-0113',jobId:'J-0229',customerId:'C2',mulai:D(-2),hari:90},
+  ];
+  const klaim=[{id:'K-011',garansiId:'G-0109',customerId:'C7',unitId:'U-004',keluhan:'AC kamar depan meneteskan air dari indoor sejak 2 hari.',tgl:D(0),status:'diajukan',keputusan:null,jobId:null}];
+  const riwayat=[];
+  units.forEach(u=>{
+    const j=jobs.find(x=>x.id===u.jobId);
+    riwayat.push({id:'R-'+pad(riwayat.length+1).padStart(4,'0'),unitId:u.id,tgl:u.tglPasang,jenis:j?'Instalasi':'Instalasi (sebelum sistem)',jobId:u.jobId,teknisi:j?j.teknisi.map(t=>teknisi.find(x=>x.id===t).nama.split(' ')[0]).join(', '):'—'});
+  });
+  riwayat.push({id:'R-0019',unitId:'U-013',tgl:D(-150),jenis:'Cuci AC',jobId:null,teknisi:'Rizky'});
+  return {teknisi,customers,units,jobs,leads,garansi,klaim,riwayat,reminderLog:{C8:{status:'ditawarkan',tgl:D(-2)}}};
+}
+
+/* ---------- aturan bisnis ---------- */
+const JENIS_GARANSI=['Instalasi','Tambah unit','Perbaikan'];
+const unitsOfJob=(s,j)=>s.units.filter(u=>u.jobId===j.id||(j.unitIds||[]).includes(u.id));
+const garansiEnd=g=>addDays(g.mulai,g.hari);
+const garansiAktif=g=>diff(T,garansiEnd(g))>=0;
+const dibayar=j=>j.bayar.dibayar.reduce((a,b)=>a+b.nominal,0);
+const sisaBayar=j=>Math.max(0,j.nilai-dibayar(j));
+const isTagihanPersonal=j=>j.jalur==='personal'&&j.status==='selesai'&&!['lunas','gratis'].includes(j.bayar.status)&&j.nilai>0;
+const overdue24=j=>isTagihanPersonal(j)&&diff(j.selesaiAt,T)>=1;
+const isPiutangCorp=j=>j.jalur==='corporate'&&j.status==='selesai'&&!['lunas','gratis'].includes(j.bayar.status)&&j.nilai>0;
+const openJobFor=(s,cid)=>s.jobs.find(j=>j.customerId===cid&&!['selesai','batal'].includes(j.status));
+const reminderUnits=s=>s.units.filter(u=>u.servisTerakhir&&diff(u.servisTerakhir,T)>=90);
+const garansiOfUnit=(s,u)=>s.garansi.find(g=>g.jobId===u.jobId);
+const tekName=(s,id)=>{const t=byId(s.teknisi,id);return t?t.nama:'—'};
+
+function agendaFor(s,tid,day){
+  const out=[];
+  s.jobs.forEach(j=>{if(j.jadwal===day&&j.teknisi.includes(tid)&&j.status!=='batal'){const c=byId(s.customers,j.customerId);out.push({kind:'job',id:j.id,jam:j.jam,label:c.nama,sub:j.jenis,status:j.status,halangan:!!j.halangan})}
+    if(j.status==='menunggu survey'&&j.survey&&j.survey.tgl===day&&j.survey.surveyor===tid){const c=byId(s.customers,j.customerId);out.push({kind:'jsurvey',id:j.id,jam:j.survey.jam||'10:00',label:c.nama,sub:'Survey tambah unit',status:'survey'})}});
+  s.leads.forEach(l=>{if(l.status==='survey'&&l.survey&&l.survey.tgl===day&&l.survey.surveyor===tid)out.push({kind:'survey',id:l.id,jam:l.survey.jam||'10:00',label:l.nama,sub:'Survey lokasi',status:'survey'})});
+  return out.sort((a,b)=>a.jam.localeCompare(b.jam));
+}
+const busyOn=(s,tid,day,exclude)=>agendaFor(s,tid,day).filter(x=>x.status!=='selesai'&&x.id!==exclude);
+
+function createJob(d,v,meta){
+  const id=nextId(d.jobs,'J-',4);
+  d.jobs.push({id,customerId:meta.customerId,leadId:meta.leadId||null,jenis:v.jenis,jalur:meta.jalur,
+    status:v.perluSurvey?'menunggu survey':'terjadwal',jadwal:v.perluSurvey?null:v.jadwal,jam:v.jam,
+    teknisi:v.perluSurvey?[]:v.teknisi,nilai:v.nilai,rencanaUnit:v.rencanaUnit,garansiHari:v.garansiHari||90,
+    catatan:v.catatan,unitIds:v.unitIds||[],sumber:meta.sumber||'lead',klaimId:meta.klaimId||null,gratis:false,
+    survey:v.perluSurvey?{tgl:v.surveyTgl,jam:'10:00',surveyor:v.surveyor,hasil:''}:null,
+    foto:[],konfirmasi:false,bast:null,reschedule:[],halangan:null,selesaiAt:null,
+    bayar:{status:'belum',dp:0,dibayar:[],ditagih:null,...(meta.bayar||{})}});
+  return id;
+}
+function completeJob(d,j){
+  j.status='selesai';j.selesaiAt=T;j.halangan=null;
+  const names=j.teknisi.map(t=>tekName(d,t).split(' ')[0]).join(', ');
+  unitsOfJob(d,j).forEach(u=>{
+    if(!u.tglPasang)u.tglPasang=T;
+    u.servisTerakhir=T;
+    d.riwayat.push({id:nextId(d.riwayat,'R-',4),unitId:u.id,tgl:T,jenis:j.jenis,jobId:j.id,teknisi:names});
+  });
+  if(JENIS_GARANSI.includes(j.jenis)&&!j.klaimId)d.garansi.push({id:nextId(d.garansi,'G-',4),jobId:j.id,customerId:j.customerId,mulai:T,hari:j.garansiHari||90});
+  if(j.klaimId){const k=byId(d.klaim,j.klaimId);if(k)k.status='selesai'}
+  if(j.gratis)j.bayar.status='gratis';
+  delete d.reminderLog[j.customerId];
+}
+
+/* ---------- penyimpanan ---------- */
+const LS='sehawa-proto-v1';
+function load(){try{const r=localStorage.getItem(LS);if(r){const o=JSON.parse(r);if(o&&o.savedOn===T)return o.data}}catch(e){}return seed()}
+function persist(s){try{localStorage.setItem(LS,JSON.stringify({savedOn:T,data:s}))}catch(e){}}
+function readImage(file){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const sc=Math.min(1,520/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};img.onerror=()=>res(null);img.src=r.result};r.onerror=()=>res(null);r.readAsDataURL(file)})}
+function copyText(text,notify){try{navigator.clipboard.writeText(text).then(()=>notify('Pesan disalin — tempel di WhatsApp'),()=>notify('Tidak bisa menyalin otomatis. Pilih teks lalu salin manual.'))}catch(e){notify('Tidak bisa menyalin otomatis. Pilih teks lalu salin manual.')}}
+
+/* ---------- ikon ---------- */
+const svg=(...c)=>html`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">${c}</svg>`;
+const I={
+  grid:svg(html`<rect x="3" y="3" width="7" height="7" rx="1.5"/>`,html`<rect x="14" y="3" width="7" height="7" rx="1.5"/>`,html`<rect x="3" y="14" width="7" height="7" rx="1.5"/>`,html`<rect x="14" y="14" width="7" height="7" rx="1.5"/>`),
+  flow:svg(html`<circle cx="5" cy="6" r="2"/>`,html`<circle cx="19" cy="6" r="2"/>`,html`<circle cx="12" cy="18" r="2"/>`,html`<path d="M7 6h10M6 8l5 8M18 8l-5 8"/>`),
+  inbox:svg(html`<path d="M4 13h4l2 3h4l2-3h4"/>`,html`<path d="M5 5h14l1 8v6H4v-6z"/>`),
+  wrench:svg(html`<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>`),
+  cal:svg(html`<rect x="3" y="5" width="18" height="16" rx="2"/>`,html`<path d="M3 10h18M8 3v4M16 3v4"/>`),
+  wallet:svg(html`<path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>`,html`<path d="M3 7l12-4v4"/>`,html`<circle cx="16.5" cy="13.5" r="1.2"/>`),
+  users:svg(html`<circle cx="9" cy="8" r="3.5"/>`,html`<path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>`,html`<path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>`),
+  shield:svg(html`<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/>`,html`<path d="M8.5 12l2.5 2.5 4.5-5"/>`),
+  bell:svg(html`<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/>`,html`<path d="M10 21h4"/>`),
+  clip:svg(html`<rect x="5" y="4" width="14" height="17" rx="2"/>`,html`<path d="M9 4V3h6v1M9 11h6M9 15h4"/>`),
+  plus:svg(html`<path d="M12 5v14M5 12h14"/>`),
+  x:svg(html`<path d="M6 6l12 12M18 6L6 18"/>`),
+  menu:svg(html`<path d="M4 7h16M4 12h16M4 17h16"/>`),
+  back:svg(html`<path d="M15 6l-6 6 6 6"/>`),
+  chev:svg(html`<path d="M9 6l6 6-6 6"/>`),
+  camera:svg(html`<path d="M4 8h3l2-3h6l2 3h3v12H4z"/>`,html`<circle cx="12" cy="13.5" r="3.5"/>`),
+  check:svg(html`<path d="M5 12.5l4.5 4.5L19 7"/>`),
+  alert:svg(html`<path d="M12 3l10 18H2z"/>`,html`<path d="M12 10v5M12 18v.5"/>`),
+  info:svg(html`<circle cx="12" cy="12" r="9"/>`,html`<path d="M12 11v6M12 7.5v.5"/>`),
+  pin:svg(html`<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/>`,html`<circle cx="12" cy="9.5" r="2.5"/>`),
+  phone:svg(html`<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>`),
+  copy:svg(html`<rect x="9" y="9" width="11" height="11" rx="2"/>`,html`<path d="M5 15V5a1 1 0 0 1 1-1h9"/>`),
+  file:svg(html`<path d="M6 3h8l4 4v14H6z"/>`,html`<path d="M14 3v4h4"/>`),
+  snow:svg(html`<path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M9 3.5l3 2 3-2M9 20.5l3-2 3 2"/>`),
+};
+
+/* ---------- komponen kecil ---------- */
+const TONE={baru:'neutral',dikontak:'info',survey:'violet',penawaran:'warn',deal:'ok',batal:'bad','menunggu survey':'violet',terjadwal:'info',proses:'warn',selesai:'ok',diajukan:'warn',dicek:'info',aktif:'ok',berakhir:'neutral',terkirim:'info',nego:'warn',disetujui:'ok',ditolak:'bad'};
+const Pill=({v,tone,children})=>html`<span className=${'pill t-'+(tone||TONE[v]||'neutral')}>${children||cap(v)}</span>`;
+const Jalur=({j})=>html`<span className=${'jalur j-'+j}>${j==='personal'?'Personal':'Corporate'}</span>`;
+const ACTOR_C={Admin:'var(--a-admin)',Teknisi:'var(--a-teknisi)',Customer:'var(--a-customer)',Sistem:'var(--a-sistem)',Owner:'var(--a-owner)'};
+const Actor=({a})=>html`<span className="actor" style=${{'--c':ACTOR_C[a]}}>${a}</span>`;
+const Av=({s,id})=>html`<span className="av" title=${tekName(s,id)}>${initials(tekName(s,id))}</span>`;
+const Team=({s,ids})=>ids.length?html`<span className="avs">${ids.map(t=>html`<${Av} key=${t} s=${s} id=${t}/>`)}</span>`:html`<span className="muted small">Belum di-assign</span>`;
+function BayarPill({j}){
+  const b=j.bayar.status;
+  if(b==='gratis')return html`<${Pill} tone="ok">Gratis · garansi<//>`;
+  if(b==='lunas')return html`<${Pill} tone="ok">Lunas<//>`;
+  if(overdue24(j))return html`<${Pill} tone="bad">Belum bayar > 24 jam<//>`;
+  if(b==='dp')return html`<${Pill} tone="warn">DP diterima<//>`;
+  if(j.status==='selesai'&&j.nilai>0)return html`<${Pill} tone="warn">Menunggu bayar<//>`;
+  if(j.klaimId&&!j.nilai)return html`<${Pill} tone="neutral">Klaim garansi<//>`;
+  return html`<${Pill} tone="neutral">Belum bayar<//>`;
+}
+function KlaimPill({k}){
+  if(k.status==='selesai')return html`<${Pill} tone="ok">Selesai<//>`;
+  if(k.keputusan==='valid')return html`<${Pill} tone="ok">Valid · gratis<//>`;
+  if(k.keputusan==='berbayar')return html`<${Pill} tone="warn">Jadi servis berbayar<//>`;
+  return html`<${Pill} v=${k.status}/>`;
+}
+const Note=({tone,icon,children})=>html`<div className=${'note '+(tone||'')}>${icon||I.info}<div>${children}</div></div>`;
+function PageHead({title,sub,actions}){return html`<div className="page-head"><div><h1>${title}</h1>${sub&&html`<p className="sub">${sub}</p>`}</div>${actions&&html`<div className="actions">${actions}</div>`}</div>`}
+function Back({to,label}){const {go}=useApp();return html`<div><button className="btn ghost sm" onClick=${()=>go(to)}>${I.back} ${label}</button></div>`}
+function Seg({value,onChange,options}){return html`<div className="seg" role="tablist">${options.map(([k,l])=>html`<button key=${k} role="tab" aria-selected=${value===k} className=${value===k?'on':''} onClick=${()=>onChange(k)}>${l}</button>`)}</div>`}
+function Stepper({steps,current,fail}){
+  const idx=steps.indexOf(current);
+  return html`<ol className="stepper">${steps.map((st,i)=>{const cls=fail&&i===idx?'fail':(i<idx||current==='selesai'&&i===idx||current==='deal'&&i===idx)?'done':i===idx?'on':'';return html`<li key=${st} className=${cls}><span className="dot">${cls==='done'?'✓':cls==='fail'?'×':i+1}</span>${cap(st)}</li>`})}${fail&&idx<0?html`<li className="fail"><span className="dot">×</span>Batal</li>`:null}</ol>`;
+}
+const DECISIONS=[
+  {n:1,title:'Aturan reschedule & tagihan personal',q:'Job personal belum lunas lewat 1×24 jam masuk daftar tagihan admin. Perlu disepakati siapa follow-up & sampai kapan.',why:'"Tanpa DP" bisa bocor jadi piutang personal yang tak terpantau.',page:'tagihan'},
+  {n:2,title:'Siapa memutuskan klaim garansi valid/ditolak',q:'Teknisi yang cek di lokasi, atau eskalasi ke owner?',why:'Status "ditolak" tanpa dasar jelas jadi sumber konflik dengan customer.',page:'garansi'},
+  {n:3,title:'Disiplin follow-up lead',q:'Berapa kali follow-up sebelum lead ditandai batal?',why:'Tanpa aturan, pipeline penuh lead "dikontak" yang sudah mati, dan laporan owner jadi menyesatkan.',page:'lead'},
+  {n:4,title:'Detail reminder servis rutin',q:'Interval (3 bulan?), siapa eksekusi, dan kapan modulnya dibangun.',why:'Peluang pendapatan berulang. Datanya sudah ada (tanggal_pasang), tinggal dipakai.',page:'reminder'},
+];
+function Open({n,assume}){const d=DECISIONS[n-1];return html`<div className="open"><div><span className="open-tag">Belum disepakati #${n}</span><b>${d.title}</b></div><p>${d.q}</p>${assume&&html`<p className="open-a">Asumsi di prototipe: ${assume}</p>`}</div>`}
+function Modal({title,wide,children,onClose}){
+  useEffect(()=>{const f=e=>{if(e.key==='Escape')onClose()};window.addEventListener('keydown',f);return()=>window.removeEventListener('keydown',f)},[]);
+  return html`<div className="mback" onMouseDown=${e=>{if(e.target===e.currentTarget)onClose()}}><div className=${'modal'+(wide?' wide':'')} role="dialog" aria-modal="true" aria-label=${title}><div className="mhead"><h3>${title}</h3><button className="icon-btn" onClick=${onClose} aria-label="Tutup">${I.x}</button></div><div className="mbody">${children}</div></div></div>`;
+}
+const Field=({label,hint,children})=>html`<div className="field"><span className="flabel">${label}</span>${children}${hint&&html`<span className="fhint">${hint}</span>`}</div>`;
+function Check({id,checked,onChange,title,desc}){return html`<label className=${'check'+(checked?' on':'')} htmlFor=${id}><input type="checkbox" id=${id} checked=${checked} onChange=${e=>onChange(e.target.checked)}/><div><b>${title}</b>${desc&&html`<span>${desc}</span>`}</div></label>`}
+function FormFoot({ok,label,onSubmit}){const {closeModal}=useApp();return html`<div className="form-foot"><button type="button" className="btn" onClick=${closeModal}>Batal</button><button type="button" className="btn primary" disabled=${!ok} onClick=${onSubmit}>${label}</button></div>`}
+function FakeQR(){
+  const cells=useMemo(()=>{let x=20260720;const a=[];for(let i=0;i<441;i++){x=(x*1103515245+12345)&0x7fffffff;const r=Math.floor(i/21),c=i%21;const fin=(r<7&&c<7)||(r<7&&c>13)||(r>13&&c<7);let on;if(fin){const rr=r>13?r-14:r,cc=c>13?c-14:c;on=rr===0||rr===6||cc===0||cc===6||(rr>=2&&rr<=4&&cc>=2&&cc<=4)}else on=((x>>9)&1)===1;a.push(on)}return a},[]);
+  return html`<div className="qr" role="img" aria-label="Contoh kode QRIS">${cells.map((on,i)=>html`<i key=${i} className=${on?'on':''}></i>`)}</div>`;
+}
+function PayInfo(){return html`<div className="pay-box"><${FakeQR}/><div style=${{display:'grid',gap:'4px'}}><b>QRIS Sehawa</b><span className="small muted">atau transfer ke rekening perusahaan</span><span className="mono">BCA 527 088 1234</span><span className="small muted">a.n. Sehawa (contoh)</span></div></div>`}
+
+/* ---------- pemilih teknisi dengan cek kalender ---------- */
+function TeknisiPicker({date,value,onChange,exclude,single,seniorOnly}){
+  const {s}=useApp();
+  const list=s.teknisi.filter(t=>!seniorOnly||t.senior);
+  return html`<div className="tpick">${list.map(t=>{
+    const busy=date?busyOn(s,t.id,date,exclude):[];const on=value.includes(t.id);
+    const toggle=()=>onChange(single?[t.id]:on?value.filter(x=>x!==t.id):[...value,t.id]);
+    return html`<label key=${t.id} className=${'check'+(on?' on':'')}><input type=${single?'radio':'checkbox'} name="tpick" checked=${on} onChange=${toggle}/><div style=${{flex:1}}><b>${t.nama}${t.senior?html` <span className="muted small">· senior</span>`:''}</b><span>${busy.length?html`<span style=${{color:'var(--warn)'}}>${busy.length} jadwal: ${busy.map(b=>b.jam+' '+(b.kind==='job'?b.id:'survey')).join(', ')}</span>`:html`<span style=${{color:'var(--ok)'}}>Kosong di ${fds(date)}</span>`}</span></div></label>`})}</div>`;
+}
+
+/* ---------- form job (dipakai konversi, repeat order, reminder, klaim) ---------- */
+function JobForm({init,jenisOpts,allowSurvey,unitsPick,submitLabel,onSubmit,before,beforeOk=true,hideNilai}){
+  const {s}=useApp();
+  const [v,setV]=useState({jenis:jenisOpts[0],perluSurvey:false,surveyTgl:D(2),surveyor:[],jadwal:D(1),jam:'09:00',teknisi:[],nilai:'',rencanaUnit:1,garansiHari:90,catatan:'',unitIds:[],...(init||{})});
+  const set=(k,x)=>setV(p=>({...p,[k]:x}));
+  const ok=beforeOk&&(v.perluSurvey?v.surveyor.length>0:(v.teknisi.length>0&&v.jadwal));
+  const submit=()=>onSubmit({...v,surveyor:v.surveyor[0],nilai:Number(String(v.nilai).replace(/\D/g,''))||0,rencanaUnit:Number(v.rencanaUnit)||0,garansiHari:Number(v.garansiHari)||90});
+  return html`<div className="form">
+    ${before}
+    <div className="frow">
+      <${Field} label="Jenis pekerjaan"><select className="input" id="jf-jenis" value=${v.jenis} onChange=${e=>set('jenis',e.target.value)}>${jenisOpts.map(o=>html`<option key=${o}>${o}</option>`)}</select><//>
+      ${!hideNilai&&html`<${Field} label="Nilai job (Rp)" hint=${v.perluSurvey?'Boleh diisi setelah survey':null}><input className="input num" id="jf-nilai" inputMode="numeric" value=${v.nilai} onChange=${e=>set('nilai',e.target.value)} placeholder="cth. 4250000"/><//>`}
+      <${Field} label="Rencana jumlah unit"><input className="input num" id="jf-unit" type="number" min="0" value=${v.rencanaUnit} onChange=${e=>set('rencanaUnit',e.target.value)}/><//>
+    </div>
+    ${unitsPick&&unitsPick.length>0&&html`<${Field} label="Unit AC terkait" hint="Riwayat servis akan tersambung ke unit yang dipilih."><div className="tpick">${unitsPick.map(u=>{const on=v.unitIds.includes(u.id);return html`<label key=${u.id} className=${'check'+(on?' on':'')}><input type="checkbox" checked=${on} onChange=${()=>set('unitIds',on?v.unitIds.filter(x=>x!==u.id):[...v.unitIds,u.id])}/><div><b>${u.merk} ${u.tipe} · ${u.lokasi}</b><span>Servis terakhir ${fd(u.servisTerakhir)}</span></div></label>`})}</div><//>`}
+    ${allowSurvey&&html`<${Check} id="jf-survey" checked=${v.perluSurvey} onChange=${x=>set('perluSurvey',x)} title="Perlu survey dulu" desc="Job berstatus “menunggu survey”. Pengerjaan dijadwalkan setelah hasil survey masuk."/>`}
+    ${v.perluSurvey?html`
+      <${Field} label="Tanggal survey"><input className="input" type="date" id="jf-stgl" value=${v.surveyTgl} onChange=${e=>set('surveyTgl',e.target.value)}/><//>
+      <${Field} label="Surveyor (teknisi senior)"><${TeknisiPicker} date=${v.surveyTgl} value=${v.surveyor} onChange=${x=>set('surveyor',x)} single seniorOnly/><//>
+    `:html`
+      <div className="frow">
+        <${Field} label="Tanggal pengerjaan"><input className="input" type="date" id="jf-tgl" value=${v.jadwal} onChange=${e=>set('jadwal',e.target.value)}/><//>
+        <${Field} label="Jam"><input className="input" type="time" id="jf-jam" value=${v.jam} onChange=${e=>set('jam',e.target.value)}/><//>
+      </div>
+      <${Field} label="Assign teknisi" hint="Status di bawah nama diambil dari kalender teknisi. Satu job bisa dikerjakan beberapa teknisi."><${TeknisiPicker} date=${v.jadwal} value=${v.teknisi} onChange=${x=>set('teknisi',x)}/><//>
+    `}
+    ${JENIS_GARANSI.includes(v.jenis)&&html`<${Field} label="Masa garansi (hari)" hint="Default 90 hari. Terbit otomatis saat job selesai."><input className="input num" type="number" id="jf-gar" min="0" value=${v.garansiHari} onChange=${e=>set('garansiHari',e.target.value)}/><//>`}
+    <${Field} label="Catatan untuk teknisi"><textarea className="input" id="jf-cat" value=${v.catatan} onChange=${e=>set('catatan',e.target.value)} placeholder="Akses lokasi, material, permintaan khusus"></textarea><//>
+    <${FormFoot} ok=${ok} label=${submitLabel} onSubmit=${submit}/>
+  </div>`;
+}
+
+/* ================= HALAMAN ================= */
+
+/* ---------- Dashboard ---------- */
+function Dashboard(){
+  const {s,go,role}=useApp();
+  const leadAktif=s.leads.filter(l=>!['deal','batal'].includes(l.status));
+  const jobHari=s.jobs.filter(j=>j.status!=='batal'&&(j.jadwal===T||j.status==='proses'));
+  const tagihan=s.jobs.filter(overdue24);
+  const piutang=s.jobs.filter(isPiutangCorp);
+  const klaimOpen=s.klaim.filter(k=>k.status!=='selesai');
+  const rem=reminderUnits(s).filter(u=>!openJobFor(s,u.customerId));
+  const remCust=[...new Set(rem.map(u=>u.customerId))];
+  const todo=[];
+  s.jobs.filter(j=>j.halangan).forEach(j=>todo.push({c:'var(--bad)',t:`Halangan di ${j.id} · perlu reschedule`,m:`${byId(s.customers,j.customerId).nama} · ${j.halangan.alasan}`,a:'Reschedule',go:['job-detail',j.id]}));
+  tagihan.forEach(j=>todo.push({c:'var(--bad)',t:`Tagihan personal lewat 1×24 jam · ${rp(sisaBayar(j))}`,m:`${j.id} · ${byId(s.customers,j.customerId).nama} · selesai ${rel(j.selesaiAt)}`,a:'Buka',go:['job-detail',j.id]}));
+  klaimOpen.filter(k=>k.status==='diajukan').forEach(k=>todo.push({c:'var(--warn)',t:'Klaim garansi baru perlu dijadwalkan cek',m:`${byId(s.customers,k.customerId).nama} · ${k.keluhan}`,a:'Tangani',go:['garansi']}));
+  s.leads.filter(l=>l.status==='baru').forEach(l=>todo.push({c:'var(--info)',t:`Lead baru belum dikontak · ${l.nama}`,m:l.kebutuhan,a:'Hubungi',go:['lead-detail',l.id]}));
+  s.leads.filter(l=>l.status==='dikontak'&&l.followups.length>=3).forEach(l=>todo.push({c:'var(--warn)',t:`${l.followups.length}× follow-up tanpa progres · ${l.nama}`,m:'Lanjutkan atau tandai batal (aturan #3 belum disepakati)',a:'Tinjau',go:['lead-detail',l.id]}));
+  s.leads.filter(l=>l.status==='survey'&&l.survey&&l.survey.hasil).forEach(l=>todo.push({c:'var(--violet)',t:`Hasil survey masuk · ${l.nama}`,m:'Susun penawaran resmi',a:'Buka',go:['lead-detail',l.id]}));
+  s.leads.filter(l=>l.status==='penawaran'&&l.penawaran&&l.penawaran.status==='disetujui').forEach(l=>todo.push({c:'var(--ok)',t:`Penawaran disetujui, menunggu DP · ${l.nama}`,m:rp(l.penawaran.nilai),a:'Catat DP',go:['lead-detail',l.id]}));
+  s.leads.filter(l=>l.status==='deal'&&!l.jobId).forEach(l=>todo.push({c:'var(--ok)',t:`Deal · belum dibuat Customer + Job · ${l.nama}`,m:'Konversi lead dan assign teknisi',a:'Konversi',go:['lead-detail',l.id]}));
+  s.jobs.filter(j=>j.status==='menunggu survey'&&j.survey&&j.survey.hasil).forEach(j=>todo.push({c:'var(--violet)',t:`Survey ${j.id} selesai · jadwalkan pengerjaan`,m:byId(s.customers,j.customerId).nama,a:'Jadwalkan',go:['job-detail',j.id]}));
+  s.jobs.filter(j=>j.jalur==='corporate'&&j.status==='selesai'&&!j.bast).forEach(j=>todo.push({c:'var(--warn)',t:`BAST belum diunggah · ${j.id}`,m:'Syarat menagih pelunasan',a:'Buka',go:['job-detail',j.id]}));
+  s.jobs.filter(j=>isPiutangCorp(j)&&j.bast&&!j.bayar.ditagih).forEach(j=>todo.push({c:'var(--ok)',t:`Siap ditagih pelunasan · ${j.id}`,m:`${byId(s.customers,j.customerId).nama} · sisa ${rp(sisaBayar(j))}`,a:'Tagih',go:['job-detail',j.id]}));
+
+  const agenda=[];s.teknisi.forEach(t=>agendaFor(s,t.id,T).forEach(a=>{const ex=agenda.find(x=>x.id===a.id);if(ex)ex.tek.push(t.id);else agenda.push({...a,tek:[t.id]})}));
+  agenda.sort((a,b)=>a.jam.localeCompare(b.jam));
+
+  const kpis=[
+    {l:'Lead aktif',v:leadAktif.length,s:`${s.leads.filter(l=>l.status==='baru').length} baru belum dikontak`,p:'lead'},
+    {l:'Job hari ini',v:jobHari.length,s:`${s.jobs.filter(j=>j.status==='proses').length} sedang proses`,p:'kalender'},
+    {l:'Tagihan > 24 jam',v:tagihan.length,s:rp(tagihan.reduce((a,j)=>a+sisaBayar(j),0)),p:'tagihan',alert:tagihan.length>0},
+    {l:'Piutang corporate',v:rp(piutang.reduce((a,j)=>a+sisaBayar(j),0)).replace('Rp ','Rp '),s:`${piutang.length} job menunggu pelunasan`,p:'tagihan'},
+    {l:'Klaim garansi terbuka',v:klaimOpen.length,s:`${s.garansi.filter(garansiAktif).length} garansi aktif`,p:'garansi'},
+    {l:'Reminder servis',v:rem.length,s:`unit dari ${remCust.length} customer, ≥ 3 bulan`,p:'reminder'},
+  ];
+  return html`
+    <${PageHead} title=${role==='owner'?'Ringkasan owner':'Hari ini di Sehawa'} sub=${`${fds(T)} · data contoh untuk prototipe`}/>
+    <div className="kpis">${kpis.map(k=>html`<button key=${k.l} className=${'kpi'+(k.alert?' alert':'')} onClick=${()=>go(k.p)}><span className="l">${k.l}</span><span className="v">${k.v}</span><span className="s">${k.s}</span></button>`)}</div>
+    ${role==='owner'&&html`<${OwnerPanel}/>`}
+    <div className="grid2">
+      <div className="card"><div className="card-h"><h2>Perlu tindakan</h2><span className="badge soft">${todo.length}</span></div>
+        ${todo.length?html`<div className="todo">${todo.map((x,i)=>html`<div key=${i} className="todo-i" style=${{'--c':x.c}}><span className="bar"></span><div><div className="tt">${x.t}</div><div className="mm">${x.m}</div></div><button className="btn sm" onClick=${()=>go(...x.go)}>${x.a}</button></div>`)}</div>`:html`<div className="empty">Tidak ada yang menunggu.</div>`}
+      </div>
+      <div className="card"><div className="card-h"><h2>Jadwal hari ini</h2><div className="right"><button className="btn sm ghost" onClick=${()=>go('kalender')}>Kalender ${I.chev}</button></div></div>
+        ${agenda.length?html`<div className="agenda">${agenda.map(a=>html`<button key=${a.id} className="ag" onClick=${()=>go(a.kind==='survey'?'lead-detail':'job-detail',a.id)}><span className="jam">${a.jam}</span><div><div style=${{fontWeight:600}}>${a.label}</div><div className="small muted">${a.kind==='job'?a.id+' · '+a.sub:a.sub}${a.halangan?' · ada halangan':''}</div></div><div style=${{display:'grid',gap:'4px',justifyItems:'end'}}><${Pill} v=${a.halangan?'batal':a.status}>${a.halangan?'Halangan':cap(a.status)}<//><${Team} s=${s} ids=${a.tek}/></div></button>`)}</div>`:html`<div className="empty">Tidak ada jadwal hari ini.</div>`}
+      </div>
+    </div>`;
+}
+function OwnerPanel(){
+  const {s}=useApp();
+  const stages=['baru','dikontak','survey','penawaran','deal','batal'];
+  const max=Math.max(1,...stages.map(st=>s.leads.filter(l=>l.status===st).length));
+  const ym=T.slice(0,7);
+  const masuk=s.jobs.flatMap(j=>j.bayar.dibayar).filter(p=>p.tgl.slice(0,7)===ym).reduce((a,p)=>a+p.nominal,0);
+  const piutang=s.jobs.filter(j=>isTagihanPersonal(j)||isPiutangCorp(j)).reduce((a,j)=>a+sisaBayar(j),0);
+  const deal=s.leads.filter(l=>l.status==='deal').length,batal=s.leads.filter(l=>l.status==='batal').length;
+  const byJalur=['personal','corporate'].map(jl=>({jl,n:s.jobs.filter(j=>j.jalur===jl&&j.status==='selesai').length}));
+  const col={baru:'var(--neutral)',dikontak:'var(--info)',survey:'var(--violet)',penawaran:'var(--warn)',deal:'var(--ok)',batal:'var(--bad)'};
+  return html`<div className="grid3">
+    <div className="card"><h2>Pipeline lead</h2><div className="bars">${stages.map(st=>{const n=s.leads.filter(l=>l.status===st).length;return html`<div key=${st} className="bar-r"><span>${cap(st)}</span><div className="bar-t"><div className="bar-f" style=${{width:(n/max*100)+'%','--c':col[st]}}></div></div><b className="num" style=${{textAlign:'right'}}>${n}</b></div>`})}</div>
+      <p className="small muted">Konversi lead tertutup: ${deal+batal?Math.round(deal/(deal+batal)*100):0}% (${deal} deal, ${batal} batal)</p></div>
+    <div className="card"><h2>Arus kas</h2><dl className="kv"><dt>Masuk ${BLN[T0.getMonth()]}</dt><dd className="num"><b>${rp(masuk)}</b></dd><dt>Belum tertagih</dt><dd className="num" style=${{color:'var(--bad)'}}><b>${rp(piutang)}</b></dd>${byJalur.map(x=>html`<dt key=${x.jl}>Job selesai ${x.jl}</dt><dd className="num">${x.n}</dd>`)}</dl></div>
+    <div className="card"><h2>Beban teknisi minggu ini</h2><div className="bars">${s.teknisi.map(t=>{let n=0;for(let i=0;i<7;i++)n+=busyOn(s,t.id,D(i)).length;return html`<div key=${t.id} className="bar-r"><span>${t.nama.split(' ')[0]}</span><div className="bar-t"><div className="bar-f" style=${{width:Math.min(100,n/5*100)+'%'}}></div></div><b className="num" style=${{textAlign:'right'}}>${n}</b></div>`})}</div><p className="small muted">Jumlah job + survey 7 hari ke depan.</p></div>
+  </div>`;
+}
+
+/* ---------- Alur proses ---------- */
+const FLOW={
+  personal:{title:'Personal',sub:'Rumah / perorangan',rule:'Tanpa DP · bayar penuh setelah selesai · transfer/QRIS ke rekening perusahaan',steps:[
+    {a:'Customer',t:'Lead masuk via WhatsApp'},
+    {a:'Admin',t:'Input lead ke sistem',st:'baru',go:'lead'},
+    {a:'Admin',t:'Kualifikasi & follow-up',st:'dikontak',n:'Lead tidak jelas / harga tak cocok → tandai batal + catat alasan',go:'lead'},
+    {dec:'Job bernilai besar? Admin boleh mengaktifkan survey dan/atau DP untuk job ini (keputusan per kasus).'},
+    {a:'Admin',t:'Buat Customer + Job, cek kalender teknisi, assign teknisi',st:'terjadwal',go:'kalender'},
+    {a:'Teknisi',t:'Pengerjaan di lokasi',st:'proses',n:'Halangan (customer tak ada, cuaca) → reschedule via admin',go:'job'},
+    {a:'Teknisi',t:'Selesai: foto bukti hasil + konfirmasi customer, lapor via WA',st:'selesai',n:'Admin input data Unit AC (merk, seri, lokasi pasang), MVP hybrid',go:'job'},
+    {a:'Customer',t:'Transfer / QRIS ke rekening perusahaan',n:'Teknisi tidak menerima tunai, hanya menunjukkan QRIS / no. rekening'},
+    {a:'Admin',t:'Verifikasi mutasi → tandai Lunas',n:'Belum bayar > 1×24 jam → masuk daftar tagihan admin',go:'tagihan'},
+    {a:'Sistem',t:'Garansi terbit otomatis, instalasi & perbaikan, default 90 hari (bisa custom)',go:'garansi'},
+  ]},
+  corporate:{title:'Corporate',sub:'Perusahaan / komersial',rule:'Survey → penawaran → DP → pengerjaan → pelunasan di belakang (termin)',steps:[
+    {a:'Customer',t:'Lead masuk (WA / referral / website)'},
+    {a:'Admin',t:'Input lead & kualifikasi',st:'dikontak',go:'lead'},
+    {a:'Teknisi',t:'Survey lokasi',st:'survey',n:'Dicatat di Lead (tanggal_survey + surveyor). Surveyor = teknisi senior, masuk kalender yang sama',go:'kalender'},
+    {a:'Admin',t:'Penawaran resmi (PDF manual), sistem catat nilai & status penawaran',st:'penawaran',go:'lead'},
+    {dec:'Nego / keputusan customer. Ditolak → lead batal + catat alasan · disetujui → lanjut.'},
+    {a:'Customer',t:'Bayar DP (persentase fleksibel hasil nego)',st:'deal',n:'Status bayar: DP',go:'lead'},
+    {a:'Admin',t:'Konversi: buat Customer + Job, jadwalkan tim teknisi',st:'terjadwal',go:'kalender'},
+    {a:'Teknisi',t:'Pengerjaan, bisa bertahap jika unit banyak',st:'proses',go:'job'},
+    {a:'Teknisi',t:'Selesai: foto bukti + BAST ditandatangani',st:'selesai',n:'BAST (template PDF) di-scan/foto, disimpan ke job. Syarat menagih pelunasan',go:'job'},
+    {a:'Admin',t:'Tagih pelunasan → verifikasi → Lunas',n:'Belum lunas → tampil di daftar piutang owner',go:'tagihan'},
+    {a:'Sistem',t:'Garansi terbit otomatis, aturan sama dengan jalur personal',go:'garansi'},
+  ]},
+  after:[
+    {title:'Klaim garansi (masa garansi aktif)',go:'garansi',steps:[
+      {a:'Customer',t:'Lapor keluhan via WA'},
+      {a:'Admin',t:'Cek garansi aktif → buat klaim',st:'diajukan',go:'garansi'},
+      {dec:'Klaim valid? Akibat pengerjaan → gratis · akibat pemakaian → jadi job servis berbayar.'},
+      {a:'Teknisi',t:'Perbaikan → selesai, tercatat di riwayat servis',go:'customer'},
+    ]},
+    {title:'Repeat order customer lama',go:'customer',steps:[
+      {a:'Customer',t:'Minta servis / cuci / tambah unit'},
+      {a:'Admin',t:'Cari customer → langsung buat Job (tanpa lead)',n:'Perlu survey (mis. corporate tambah unit) → Job status “menunggu survey”',go:'customer'},
+      {a:'Teknisi',t:'Kerjakan → bayar → riwayat servis tersambung ke unit',go:'job'},
+    ]},
+    {title:'Reminder servis rutin (proaktif)',go:'reminder',steps:[
+      {a:'Sistem',t:'Deteksi unit ±3 bulan sejak pasang/servis terakhir',go:'reminder'},
+      {a:'Admin',t:'Tawarkan cuci / maintenance via WA',go:'reminder'},
+      {a:'Customer',t:'Setuju → langsung jadi Job',n:'Pendapatan berulang: after-sales aktif, tidak hanya menunggu telepon'},
+    ]},
+  ],
+};
+function FlowSteps({steps}){
+  const {go}=useApp();
+  return html`<ol className="flow">${steps.map((x,i)=>x.dec?html`<li key=${i} className="fstep dec"><div className="decision">${x.dec}</div></li>`:html`<li key=${i} className="fstep"><div className="fbox"><div className="fline"><${Actor} a=${x.a}/><span className="tx">${x.t}</span>${x.st&&html`<${Pill} v=${x.st}/>`}</div>${x.n&&html`<div className="fnote">${x.n}</div>`}${x.go&&html`<button className="fgo" onClick=${()=>go(x.go)}>Lihat di prototipe →</button>`}</div></li>`)}</ol>`;
+}
+function Alur(){
+  const {go}=useApp();
+  return html`
+    <${PageHead} title="Alur proses end-to-end" sub="Hasil diskusi flow 20 Juli 2026. Dua jalur pelanggan dan siklus after-sales. Setiap langkah terhubung ke layar prototipe yang menjalankannya."/>
+    <div className="legend"><span><span className="jalur j-personal">Personal</span></span><span><span className="jalur j-corporate">Corporate</span></span><span><span className="jalur j-after">After-sales</span></span><span>Pelaku:</span>${Object.keys(ACTOR_C).map(a=>html`<${Actor} key=${a} a=${a}/>`)}</div>
+    <div className="lanes">${['personal','corporate'].map(k=>{const L=FLOW[k];return html`<section key=${k} className="lane" style=${{'--lc':`var(--${k})`}}><div className="lane-h"><h2><span className=${'jalur j-'+k}>${L.title}</span>${L.sub}</h2><p>${L.rule}</p></div><${FlowSteps} steps=${L.steps}/></section>`})}</div>
+    <section className="lane" style=${{'--lc':'var(--after)'}}><div className="lane-h"><h2><span className="jalur j-after">After-sales</span>Siklus purna jual untuk kedua jalur</h2><p>Job selesai → Unit AC tercatat per customer → tiga pintu masuk kembali, tanpa lewat pipeline lead.</p></div>
+      <div className="after-grid">${FLOW.after.map(b=>html`<div key=${b.title} className="after-col"><h3>${b.title}</h3><${FlowSteps} steps=${b.steps}/></div>`)}</div></section>
+    <div className="card"><h2>Titik keputusan yang masih perlu disepakati</h2><p className="muted small">Tidak menghalangi flow inti. Putuskan sebelum development modul terkait. Di prototipe, tiap poin muncul di layar yang terdampak beserta asumsi sementaranya.</p>
+      <div className="grid2" style=${{gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))'}}>${DECISIONS.map(d=>html`<div key=${d.n} className="open"><div><span className="open-tag">#${d.n}</span><b>${d.title}</b></div><p>${d.q}</p><p className="open-a">Kenapa penting: ${d.why}</p><button className="fgo" onClick=${()=>go(d.page)}>Lihat layar terkait →</button></div>`)}</div></div>`;
+}
+
+/* ---------- Lead ---------- */
+function leadNext(l){
+  if(l.status==='baru')return 'Hubungi & kualifikasi';
+  if(l.status==='dikontak')return (l.jalur==='corporate'||l.perluSurvey)?'Jadwalkan survey':(l.perluDP?'Catat DP':'Deal → buat job');
+  if(l.status==='survey')return l.survey&&l.survey.hasil?'Kirim penawaran':'Survey '+fds(l.survey.tgl);
+  if(l.status==='penawaran')return l.penawaran.status==='disetujui'?'Catat DP':'Menunggu keputusan ('+l.penawaran.status+')';
+  if(l.status==='deal')return l.jobId?'Job '+l.jobId:'Konversi ke job';
+  return l.alasanBatal||'—';
+}
+function LeadList(){
+  const {s,go,openModal}=useApp();
+  const [jalur,setJalur]=useState('semua');const [st,setSt]=useState('aktif');const [q,setQ]=useState('');
+  const STS=['aktif','baru','dikontak','survey','penawaran','deal','batal'];
+  const base=s.leads.filter(l=>jalur==='semua'||l.jalur===jalur).filter(l=>!q||(l.nama+' '+l.kebutuhan+' '+l.id).toLowerCase().includes(q.toLowerCase()));
+  const match=(l,k)=>k==='aktif'?!['deal','batal'].includes(l.status):l.status===k;
+  const rows=base.filter(l=>match(l,st)).sort((a,b)=>b.id.localeCompare(a.id));
+  return html`
+    <${PageHead} title="Lead" sub="Prospek dari WhatsApp, referral, dan website. Lead terpisah dari Customer dan baru jadi Customer saat deal." actions=${html`<button className="btn primary" onClick=${()=>openModal({title:'Input lead baru',body:html`<${LeadForm}/>`})}>${I.plus} Lead baru</button>`}/>
+    <div className="toolbar"><${Seg} value=${jalur} onChange=${setJalur} options=${[['semua','All'],['personal','Personal'],['corporate','Corporate']]}/><input className="search" id="lead-q" placeholder="Cari nama, kebutuhan, ID" value=${q} onChange=${e=>setQ(e.target.value)}/></div>
+    <div className="tabs">${STS.map(k=>html`<button key=${k} className=${'tab'+(st===k?' on':'')} onClick=${()=>setSt(k)}>${k==='aktif'?'All active':cap(k)}<span className="tcount">${base.filter(l=>match(l,k)).length}</span></button>`)}</div>
+    <div className="card flush"><div className="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Prospek</th><th>Jalur</th><th>Sumber</th><th>Status</th><th className="r">Follow-up</th><th>Langkah berikutnya</th><th>Masuk</th></tr></thead>
+      <tbody>${rows.map(l=>html`<tr key=${l.id} className="click" tabIndex="0" onClick=${()=>go('lead-detail',l.id)} onKeyDown=${e=>e.key==='Enter'&&go('lead-detail',l.id)}>
+        <td className="mono">${l.id}</td><td><div className="t1">${l.nama}</div><div className="t2">${l.kebutuhan}</div></td><td><${Jalur} j=${l.jalur}/></td><td>${l.sumber}</td><td><${Pill} v=${l.status}/></td>
+        <td className="r num">${l.followups.length}${l.status==='dikontak'&&l.followups.length>=3?html` <span title="Sudah 3× follow-up" style=${{color:'var(--warn)'}}>⚠</span>`:''}</td><td className="small">${leadNext(l)}</td><td className="small muted">${rel(l.created)}</td></tr>`)}
+      ${!rows.length&&html`<tr><td colSpan="8"><div className="empty">Tidak ada lead di filter ini.</div></td></tr>`}</tbody></table></div></div>
+    ${(st==='aktif'||st==='dikontak')&&html`<${Open} n=${3} assume="lead diberi tanda ⚠ setelah 3× follow-up tanpa progres. Admin tetap yang memutuskan batal."/>`}`;
+}
+function LeadForm(){
+  const {s,act,go,closeModal}=useApp();
+  const [v,setV]=useState({nama:'',hp:'',jalur:'personal',sumber:'WhatsApp',kebutuhan:'',alamat:''});
+  const set=(k,x)=>setV(p=>({...p,[k]:x}));
+  const ok=v.nama.trim()&&v.hp.trim()&&v.kebutuhan.trim();
+  const submit=()=>{const id=nextId(s.leads,'L-',4);act(d=>{d.leads.push({...v,id,status:'baru',created:T,followups:[]})},`Lead ${id} tersimpan dengan status baru`);closeModal();go('lead-detail',id)};
+  return html`<div className="form">
+    <div className="frow"><${Field} label="Nama / perusahaan"><input className="input" id="lf-nama" value=${v.nama} onChange=${e=>set('nama',e.target.value)}/><//><${Field} label="No. WhatsApp"><input className="input" id="lf-hp" value=${v.hp} onChange=${e=>set('hp',e.target.value)} placeholder="08xx"/><//></div>
+    <div className="frow"><${Field} label="Jalur"><select className="input" id="lf-jalur" value=${v.jalur} onChange=${e=>set('jalur',e.target.value)}><option value="personal">Personal (rumah / perorangan)</option><option value="corporate">Corporate (perusahaan)</option></select><//><${Field} label="Sumber"><select className="input" id="lf-sumber" value=${v.sumber} onChange=${e=>set('sumber',e.target.value)}>${['WhatsApp','Referral','Website','Instagram','Lainnya'].map(o=>html`<option key=${o}>${o}</option>`)}</select><//></div>
+    <${Field} label="Kebutuhan"><input className="input" id="lf-keb" value=${v.kebutuhan} onChange=${e=>set('kebutuhan',e.target.value)} placeholder="cth. Pasang 2 unit AC 1 PK"/><//>
+    <${Field} label="Alamat"><input className="input" id="lf-alamat" value=${v.alamat} onChange=${e=>set('alamat',e.target.value)}/><//>
+    <${FormFoot} ok=${ok} label="Simpan lead" onSubmit=${submit}/></div>`;
+}
+function FollowupForm({id}){
+  const {act,closeModal}=useApp();const [c,setC]=useState('');
+  return html`<div className="form"><${Field} label="Catatan follow-up"><textarea className="input" id="fu-c" value=${c} onChange=${e=>setC(e.target.value)} placeholder="cth. Kirim estimasi harga, customer minta jadwal Sabtu"></textarea><//><${FormFoot} ok=${c.trim()} label="Simpan" onSubmit=${()=>{act(d=>{const l=byId(d.leads,id);l.followups.push({tgl:T,catatan:c});if(l.status==='baru')l.status='dikontak'},'Follow-up dicatat');closeModal()}}/></div>`;
+}
+function SurveyForm({id}){
+  const {act,closeModal}=useApp();const [tgl,setTgl]=useState(D(2));const [jam,setJam]=useState('10:00');const [sv,setSv]=useState([]);
+  return html`<div className="form"><div className="frow"><${Field} label="Tanggal survey"><input className="input" type="date" id="sv-tgl" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Jam"><input className="input" type="time" id="sv-jam" value=${jam} onChange=${e=>setJam(e.target.value)}/><//></div>
+    <${Field} label="Surveyor" hint="Surveyor = teknisi senior. Jadwal survey masuk kalender yang sama dengan job."><${TeknisiPicker} date=${tgl} value=${sv} onChange=${setSv} single seniorOnly/><//>
+    <${FormFoot} ok=${sv.length} label="Jadwalkan survey" onSubmit=${()=>{act(d=>{const l=byId(d.leads,id);l.survey={tgl,jam,surveyor:sv[0],hasil:''};l.status='survey'},'Survey dijadwalkan & masuk kalender teknisi');closeModal()}}/></div>`;
+}
+function HasilSurveyForm({id,isJob}){
+  const {s,act,closeModal}=useApp();const obj=isJob?byId(s.jobs,id):byId(s.leads,id);const [h,setH]=useState(obj.survey.hasil||'');
+  return html`<div className="form"><${Field} label="Hasil survey" hint="Jumlah titik, kondisi listrik, jalur pipa, kebutuhan material."><textarea className="input" id="hs" value=${h} onChange=${e=>setH(e.target.value)}></textarea><//><${FormFoot} ok=${h.trim()} label="Simpan hasil" onSubmit=${()=>{act(d=>{const o=isJob?byId(d.jobs,id):byId(d.leads,id);o.survey.hasil=h},'Hasil survey tersimpan');closeModal()}}/></div>`;
+}
+function PenawaranForm({id}){
+  const {s,act,closeModal}=useApp();const l=byId(s.leads,id);const [n,setN]=useState(l.estimasi||'');const [tgl,setTgl]=useState(T);
+  return html`<div className="form"><${Note}>PDF penawaran dibuat manual di luar sistem. Sistem hanya mencatat nilai dan status penawaran.<//>
+    <div className="frow"><${Field} label="Nilai penawaran (Rp)"><input className="input num" id="pw-n" inputMode="numeric" value=${n} onChange=${e=>setN(e.target.value)}/><//><${Field} label="Tanggal kirim"><input className="input" type="date" id="pw-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//></div>
+    <${FormFoot} ok=${Number(String(n).replace(/\D/g,''))>0} label="Catat penawaran" onSubmit=${()=>{act(d=>{const x=byId(d.leads,id);x.penawaran={nilai:Number(String(n).replace(/\D/g,'')),status:'terkirim',tgl};x.status='penawaran'},'Penawaran tercatat');closeModal()}}/></div>`;
+}
+function DPForm({id}){
+  const {s,act,closeModal}=useApp();const l=byId(s.leads,id);const [bs,setBs]=useState((l.penawaran&&l.penawaran.nilai)||l.estimasi||'');const base=Number(String(bs).replace(/\D/g,''))||0;
+  const [p,setP]=useState(30);const [tgl,setTgl]=useState(T);const [m,setM]=useState('Transfer BCA');
+  const nilai=Math.round(base*(Number(p)||0)/100);
+  return html`<div className="form"><div className="frow"><${Field} label="Persentase DP" hint="Fleksibel sesuai hasil nego"><input className="input num" type="number" id="dp-p" min="1" max="100" value=${p} onChange=${e=>setP(e.target.value)}/><//><${Field} label="Nominal"><input className="input num" id="dp-n" readOnly value=${rp(nilai)}/><//></div>
+    <div className="frow"><${Field} label="Tanggal mutasi"><input className="input" type="date" id="dp-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Metode"><select className="input" id="dp-m" value=${m} onChange=${e=>setM(e.target.value)}><option>Transfer BCA</option><option>QRIS</option></select><//></div>
+    <${Field} label="Nilai job / penawaran (Rp)"><input className="input num" id="dp-b" value=${bs} onChange=${e=>setBs(e.target.value)} readOnly=${!!l.penawaran}/><//>
+    <p className="small muted">Dari nilai ${rp(base)}. Setelah DP tercatat, lead berstatus deal dan siap dikonversi.</p>
+    <${FormFoot} ok=${nilai>0} label="Catat DP & deal" onSubmit=${()=>{act(d=>{const x=byId(d.leads,id);x.dp={persen:Number(p),nilai,tgl,metode:m};x.status='deal'},'DP tercatat. Lead deal');closeModal()}}/></div>`;
+}
+function BatalForm({id,preset}){
+  const {act,closeModal}=useApp();const [a,setA]=useState(preset||'Harga tidak cocok');const [c,setC]=useState('');
+  return html`<div className="form"><${Field} label="Alasan batal"><select className="input" id="bt-a" value=${a} onChange=${e=>setA(e.target.value)}>${['Harga tidak cocok','Penawaran ditolak','Tidak ada respons','Kebutuhan tidak jelas','Lokasi di luar jangkauan','Pilih vendor lain','Lainnya'].map(o=>html`<option key=${o}>${o}</option>`)}</select><//><${Field} label="Catatan"><textarea className="input" id="bt-c" value=${c} onChange=${e=>setC(e.target.value)}></textarea><//>
+    <${FormFoot} ok=${true} label="Tandai batal" onSubmit=${()=>{act(d=>{const l=byId(d.leads,id);l.status='batal';l.alasanBatal=a;l.catatanBatal=c;if(l.penawaran&&a==='Penawaran ditolak')l.penawaran.status='ditolak'},'Lead ditandai batal');closeModal()}}/></div>`;
+}
+function KonversiForm({id}){
+  const {s,act,go,closeModal}=useApp();const l=byId(s.leads,id);
+  const [c,setC]=useState({nama:l.nama,hp:l.hp,alamat:l.alamat||'',pic:''});
+  const setc=(k,x)=>setC(p=>({...p,[k]:x}));
+  const nilai=(l.penawaran&&l.penawaran.nilai)||l.estimasi||'';
+  const before=html`<div className="form"><b className="small muted" style=${{textTransform:'uppercase',letterSpacing:'.07em'}}>Customer baru</b>
+    <div className="frow"><${Field} label="Nama"><input className="input" id="kv-n" value=${c.nama} onChange=${e=>setc('nama',e.target.value)}/><//><${Field} label="No. HP"><input className="input" id="kv-h" value=${c.hp} onChange=${e=>setc('hp',e.target.value)}/><//></div>
+    <${Field} label="Alamat pemasangan"><input className="input" id="kv-a" value=${c.alamat} onChange=${e=>setc('alamat',e.target.value)}/><//>
+    ${l.jalur==='corporate'&&html`<${Field} label="PIC"><input className="input" id="kv-p" value=${c.pic} onChange=${e=>setc('pic',e.target.value)} placeholder="cth. Ibu Sari (GA)"/><//>`}
+    <div className="divider"></div><b className="small muted" style=${{textTransform:'uppercase',letterSpacing:'.07em'}}>Job</b></div>`;
+  const submit=v=>{
+    const cid=nextId(s.customers,'C',1);const jid=nextId(s.jobs,'J-',4);
+    act(d=>{d.customers.push({id:cid,tipe:l.jalur,...c});
+      createJob(d,v,{customerId:cid,jalur:l.jalur,leadId:l.id,bayar:l.dp?{status:'dp',dp:l.dp.nilai,dibayar:[{tgl:l.dp.tgl,nominal:l.dp.nilai,metode:l.dp.metode||'Transfer BCA',jenis:'DP '+l.dp.persen+'%'}]}:{}});
+      const x=byId(d.leads,id);x.customerId=cid;x.jobId=jid;x.status='deal'},`Customer ${cid} & Job ${jid} dibuat, teknisi ter-assign`);
+    closeModal();go('job-detail',jid)};
+  return html`<${JobForm} before=${before} beforeOk=${c.nama.trim()&&c.hp.trim()} init=${{nilai,catatan:l.kebutuhan}} jenisOpts=${['Instalasi','Servis','Cuci AC','Perbaikan']} submitLabel="Buat Customer + Job" onSubmit=${submit}/>`;
+}
+function LeadDetail({id}){
+  const {s,act,go,openModal}=useApp();
+  const l=byId(s.leads,id);if(!l)return html`<p>Lead tidak ditemukan.</p>`;
+  const M=(title,body,wide)=>()=>openModal({title,body,wide});
+  const corp=l.jalur==='corporate';
+  const steps=corp?['baru','dikontak','survey','penawaran','deal']:['baru','dikontak',...(l.perluSurvey?['survey']:[]),...(l.penawaran?['penawaran']:[]),'deal'];
+  const setFlag=(k,x)=>act(d=>{byId(d.leads,id)[k]=x});
+  const needSurvey=corp||l.perluSurvey;
+  let next=null;
+  if(l.status==='baru')next=html`<p className="small muted">Hubungi prospek via WhatsApp, lalu catat hasilnya.</p><button className="btn primary" onClick=${M('Catat kontak pertama',html`<${FollowupForm} id=${id}/>`)}>Tandai sudah dikontak</button>`;
+  else if(l.status==='dikontak')next=html`
+    ${!corp&&html`<div className="open" style=${{borderColor:'color-mix(in srgb,var(--warn) 55%,var(--line))',background:'color-mix(in srgb,var(--warn) 5%,transparent)'}}><div><span className="open-tag" style=${{color:'var(--warn)'}}>Titik keputusan</span><b>Job bernilai besar?</b></div><p className="small muted">Admin boleh mengaktifkan survey dan/atau DP untuk job ini, diputuskan per kasus.</p>
+      <${Check} id="lf-ps" checked=${!!l.perluSurvey} onChange=${x=>setFlag('perluSurvey',x)} title="Aktifkan survey" desc="Teknisi senior cek lokasi dulu"/><${Check} id="lf-pd" checked=${!!l.perluDP} onChange=${x=>setFlag('perluDP',x)} title="Aktifkan DP" desc="Customer bayar DP sebelum dikerjakan"/></div>`}
+    <div className="row">
+      ${needSurvey?html`<button className="btn primary" onClick=${M('Jadwalkan survey lokasi',html`<${SurveyForm} id=${id}/>`)}>Jadwalkan survey</button>`
+        :l.perluDP?html`<button className="btn primary" onClick=${M('Catat DP',html`<${DPForm} id=${id}/>`)}>Deal · catat DP</button>`
+        :html`<button className="btn primary" onClick=${()=>act(d=>{byId(d.leads,id).status='deal'},'Lead deal. Lanjut buat Customer + Job')}>Deal</button>`}
+      <button className="btn" onClick=${M('Catat follow-up',html`<${FollowupForm} id=${id}/>`)}>Catat follow-up</button></div>
+    ${l.followups.length>=3&&html`<${Note} tone="warn" icon=${I.alert}>Sudah ${l.followups.length}× follow-up tanpa progres. Pertimbangkan tandai batal.<//>`}`;
+  else if(l.status==='survey')next=l.survey.hasil?html`<p className="small muted">Hasil survey sudah masuk.</p><div className="row">${corp||l.perluDP?html`<button className="btn primary" onClick=${M('Catat penawaran resmi',html`<${PenawaranForm} id=${id}/>`)}>Catat penawaran</button>`:html`<button className="btn primary" onClick=${()=>act(d=>{byId(d.leads,id).status='deal'},'Lead deal')}>Deal</button><button className="btn" onClick=${M('Catat penawaran resmi',html`<${PenawaranForm} id=${id}/>`)}>Catat penawaran</button>`}</div>`
+    :html`<p className="small muted">Survey dijadwalkan ${fds(l.survey.tgl)} ${l.survey.jam||''} oleh ${tekName(s,l.survey.surveyor)}. Hasil diisi surveyor dari HP, atau admin mengisinya dari laporan WA.</p><button className="btn primary" onClick=${M('Hasil survey',html`<${HasilSurveyForm} id=${id}/>`)}>Isi hasil survey</button>`;
+  else if(l.status==='penawaran'){const ps=l.penawaran.status;next=ps==='disetujui'?html`<p className="small muted">Penawaran disetujui. Catat DP untuk menjadikan deal.</p><button className="btn primary" onClick=${M('Catat DP',html`<${DPForm} id=${id}/>`)}>Catat DP</button>`
+    :html`<p className="small muted">Nego / keputusan customer. Ditolak → lead batal + catat alasan. Disetujui → lanjut.</p><div className="row">
+      <button className="btn primary" onClick=${()=>act(d=>{byId(d.leads,id).penawaran.status='disetujui'},'Penawaran disetujui')}>Disetujui</button>
+      ${ps!=='nego'&&html`<button className="btn" onClick=${()=>act(d=>{byId(d.leads,id).penawaran.status='nego'},'Status penawaran: nego')}>Nego</button>`}
+      <button className="btn danger" onClick=${M('Penawaran ditolak',html`<${BatalForm} id=${id} preset="Penawaran ditolak"/>`)}>Ditolak</button></div>`}
+  else if(l.status==='deal')next=l.jobId?html`<p className="small muted">Sudah dikonversi menjadi Customer dan Job.</p><div className="row"><button className="btn primary" onClick=${()=>go('job-detail',l.jobId)}>Buka ${l.jobId}</button><button className="btn" onClick=${()=>go('customer-detail',l.customerId)}>Buka customer</button></div>`
+    :html`<p className="small muted">Buat Customer + Job, cek kalender teknisi, lalu assign teknisi.</p><button className="btn primary" onClick=${M('Konversi: Customer + Job',html`<${KonversiForm} id=${id}/>`,true)}>Konversi ke Customer + Job</button>`;
+  else next=html`<${Note} tone="bad" icon=${I.x}><b>${l.alasanBatal}</b>${l.catatanBatal?html`<br/>${l.catatanBatal}`:''}<//>`;
+  return html`
+    <${Back} to="lead" label="Semua lead"/>
+    <${PageHead} title=${l.nama} sub=${html`<span className="mono">${l.id}</span> · ${l.kebutuhan}`} actions=${html`<${Jalur} j=${l.jalur}/><${Pill} v=${l.status}/>`}/>
+    <div className="card"><${Stepper} steps=${steps} current=${l.status==='batal'?'':l.status} fail=${l.status==='batal'}/></div>
+    <div className="grid2">
+      <div className="stack">
+        <div className="card"><h2>Langkah berikutnya</h2>${next}
+          ${!['deal','batal'].includes(l.status)&&html`<div><button className="btn ghost sm danger" onClick=${M('Tandai lead batal',html`<${BatalForm} id=${id}/>`)}>Tandai batal</button></div>`}</div>
+        <div className="card"><div className="card-h"><h2>Riwayat follow-up</h2><span className="badge soft">${l.followups.length}</span></div>
+          ${l.followups.length?html`<ul className="timeline">${[...l.followups].reverse().map((f,i)=>html`<li key=${i}><span className="d">${fd(f.tgl)}</span><span>${f.catatan}</span></li>`)}</ul>`:html`<div className="empty">Belum ada follow-up.</div>`}</div>
+        ${l.status==='dikontak'&&html`<${Open} n=${3} assume="tanda peringatan muncul di follow-up ke-3."/>`}
+      </div>
+      <div className="stack">
+        <div className="card"><h2>Data prospek</h2><dl className="kv"><dt>No. WhatsApp</dt><dd className="mono">${l.hp}</dd><dt>Alamat</dt><dd>${l.alamat||'—'}</dd><dt>Sumber</dt><dd>${l.sumber}</dd><dt>Masuk</dt><dd>${fd(l.created)}</dd>${l.estimasi?html`<dt>Estimasi</dt><dd className="num">${rp(l.estimasi)}</dd>`:''}</dl></div>
+        ${l.survey&&html`<div className="card"><h2>Survey lokasi</h2><dl className="kv"><dt>tanggal_survey</dt><dd>${fds(l.survey.tgl)} · ${l.survey.jam||'—'}</dd><dt>surveyor</dt><dd>${tekName(s,l.survey.surveyor)}</dd><dt>Hasil</dt><dd>${l.survey.hasil||html`<span className="muted">Belum diisi</span>`}</dd></dl></div>`}
+        ${l.penawaran&&html`<div className="card"><h2>Penawaran</h2><dl className="kv"><dt>Nilai</dt><dd className="num"><b>${rp(l.penawaran.nilai)}</b></dd><dt>Status</dt><dd><${Pill} v=${l.penawaran.status}/></dd><dt>Dikirim</dt><dd>${fd(l.penawaran.tgl)}</dd></dl></div>`}
+        ${l.dp&&html`<div className="card"><h2>DP</h2><dl className="kv"><dt>Persentase</dt><dd>${l.dp.persen}%</dd><dt>Nominal</dt><dd className="num">${rp(l.dp.nilai)}</dd><dt>Tanggal</dt><dd>${fd(l.dp.tgl)}</dd></dl></div>`}
+      </div>
+    </div>`;
+}
+
+/* ---------- Job ---------- */
+function JobList(){
+  const {s,go}=useApp();
+  const [st,setSt]=useState('berjalan');const [jalur,setJalur]=useState('semua');
+  const TABS=[['berjalan','Berjalan'],['menunggu survey','Menunggu survey'],['terjadwal','Terjadwal'],['proses','Proses'],['selesai','Selesai'],['semua','All']];
+  const base=s.jobs.filter(j=>jalur==='semua'||j.jalur===jalur);
+  const match=(j,k)=>k==='semua'||(k==='berjalan'?!['selesai','batal'].includes(j.status):j.status===k);
+  const rows=base.filter(j=>match(j,st)).sort((a,b)=>b.id.localeCompare(a.id));
+  const src={lead:'Lead',repeat:'Repeat order',reminder:'Reminder',klaim:'Klaim'};
+  return html`
+    <${PageHead} title="Job" sub="Pekerjaan lapangan. Dibuat dari lead yang deal, repeat order, reminder servis, atau klaim garansi."/>
+    <div className="toolbar"><${Seg} value=${jalur} onChange=${setJalur} options=${[['semua','All'],['personal','Personal'],['corporate','Corporate']]}/></div>
+    <div className="tabs">${TABS.map(([k,lb])=>html`<button key=${k} className=${'tab'+(st===k?' on':'')} onClick=${()=>setSt(k)}>${lb}<span className="tcount">${base.filter(j=>match(j,k)).length}</span></button>`)}</div>
+    <div className="card flush"><div className="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Customer</th><th>Jenis</th><th>Jadwal</th><th>Teknisi</th><th>Status</th><th>Pembayaran</th><th className="r">Nilai</th></tr></thead>
+      <tbody>${rows.map(j=>{const c=byId(s.customers,j.customerId);return html`<tr key=${j.id} className="click" tabIndex="0" onClick=${()=>go('job-detail',j.id)} onKeyDown=${e=>e.key==='Enter'&&go('job-detail',j.id)}>
+        <td className="mono">${j.id}</td><td><div className="t1">${c.nama}</div><div className="t2"><${Jalur} j=${j.jalur}/> · ${src[j.sumber]||'Lead'}</div></td><td>${j.jenis}</td>
+        <td><div>${j.jadwal?fds(j.jadwal):'—'}</div><div className="t2">${j.jadwal?j.jam+' · '+rel(j.jadwal):j.survey?'Survey '+fds(j.survey.tgl):''}</div></td>
+        <td><${Team} s=${s} ids=${j.teknisi}/></td><td><div className="row"><${Pill} v=${j.status}/>${j.halangan&&html`<${Pill} tone="bad">Halangan<//>`}</div></td><td><${BayarPill} j=${j}/></td><td className="r num">${j.nilai?rp(j.nilai):'—'}</td></tr>`})}
+      ${!rows.length&&html`<tr><td colSpan="8"><div className="empty">Tidak ada job di filter ini.</div></td></tr>`}</tbody></table></div></div>`;
+}
+function RescheduleForm({id}){
+  const {s,act,closeModal}=useApp();const j=byId(s.jobs,id);
+  const [tgl,setTgl]=useState(addDays(T,2));const [jam,setJam]=useState(j.jam||'09:00');const [tek,setTek]=useState(j.teknisi);const [a,setA]=useState(j.halangan?j.halangan.alasan+(j.halangan.catatan?' · '+j.halangan.catatan:''):'');
+  return html`<div className="form"><div className="frow"><${Field} label="Tanggal baru"><input className="input" type="date" id="rs-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Jam"><input className="input" type="time" id="rs-j" value=${jam} onChange=${e=>setJam(e.target.value)}/><//></div>
+    <${Field} label="Teknisi"><${TeknisiPicker} date=${tgl} value=${tek} onChange=${setTek} exclude=${id}/><//>
+    <${Field} label="Alasan"><input className="input" id="rs-a" value=${a} onChange=${e=>setA(e.target.value)} placeholder="cth. Cuaca hujan deras"/><//>
+    <${FormFoot} ok=${tek.length&&tgl} label="Simpan jadwal baru" onSubmit=${()=>{act(d=>{const x=byId(d.jobs,id);x.reschedule.push({dari:x.jadwal,ke:tgl,alasan:a||'—',tgl:T});x.jadwal=tgl;x.jam=jam;x.teknisi=tek;x.halangan=null},'Job dijadwalkan ulang, teknisi mendapat jadwal baru');closeModal()}}/></div>`;
+}
+function JadwalkanSetelahSurvey({id}){
+  const {s,act,closeModal}=useApp();const j=byId(s.jobs,id);
+  const [tgl,setTgl]=useState(addDays(T,3));const [jam,setJam]=useState('09:00');const [tek,setTek]=useState(j.survey?[j.survey.surveyor]:[]);const [n,setN]=useState(j.nilai||'');
+  return html`<div className="form">${j.survey&&j.survey.hasil&&html`<${Note}>Hasil survey: ${j.survey.hasil}<//>`}
+    <div className="frow"><${Field} label="Tanggal pengerjaan"><input className="input" type="date" id="js-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Jam"><input className="input" type="time" id="js-j" value=${jam} onChange=${e=>setJam(e.target.value)}/><//><${Field} label="Nilai job (Rp)"><input className="input num" id="js-n" value=${n} onChange=${e=>setN(e.target.value)}/><//></div>
+    <${Field} label="Assign teknisi"><${TeknisiPicker} date=${tgl} value=${tek} onChange=${setTek} exclude=${id}/><//>
+    <${FormFoot} ok=${tek.length} label="Jadwalkan" onSubmit=${()=>{act(d=>{const x=byId(d.jobs,id);x.jadwal=tgl;x.jam=jam;x.teknisi=tek;x.nilai=Number(String(n).replace(/\D/g,''))||0;x.status='terjadwal'},'Job terjadwal');closeModal()}}/></div>`;
+}
+function UnitForm({jobId}){
+  const {s,act,closeModal}=useApp();const j=byId(s.jobs,jobId);
+  const [v,setV]=useState({merk:'Daikin',tipe:'Split 1 PK',seri:'',lokasi:''});const set=(k,x)=>setV(p=>({...p,[k]:x}));
+  return html`<div className="form"><${Note}>MVP hybrid: teknisi melaporkan data unit via WA, admin yang menginput ke sistem.<//>
+    <div className="frow"><${Field} label="Merk"><select className="input" id="uf-m" value=${v.merk} onChange=${e=>set('merk',e.target.value)}>${['Daikin','Panasonic','LG','Sharp','Gree','Mitsubishi Electric','Samsung','Polytron','Lainnya'].map(o=>html`<option key=${o}>${o}</option>`)}</select><//>
+    <${Field} label="Tipe / kapasitas"><select className="input" id="uf-t" value=${v.tipe} onChange=${e=>set('tipe',e.target.value)}>${['Split ½ PK','Split ¾ PK','Split 1 PK','Split 1½ PK','Split 2 PK','Split 2½ PK','Cassette 3 PK','Split Duct 5 PK','Standing 5 PK'].map(o=>html`<option key=${o}>${o}</option>`)}</select><//></div>
+    <div className="frow"><${Field} label="No. seri"><input className="input mono" id="uf-s" value=${v.seri} onChange=${e=>set('seri',e.target.value)} placeholder="Dari label unit indoor"/><//><${Field} label="Lokasi pasang"><input className="input" id="uf-l" value=${v.lokasi} onChange=${e=>set('lokasi',e.target.value)} placeholder="cth. Kamar utama"/><//></div>
+    <${FormFoot} ok=${v.seri.trim()&&v.lokasi.trim()} label="Simpan unit" onSubmit=${()=>{act(d=>{const tg=j.jadwal||T;d.units.push({id:nextId(d.units,'U-',3),customerId:j.customerId,jobId:j.id,...v,tglPasang:tg,servisTerakhir:tg})},'Unit AC tercatat');closeModal()}}/></div>`;
+}
+function VerifyForm({id}){
+  const {s,act,closeModal}=useApp();const j=byId(s.jobs,id);
+  const [n,setN]=useState(sisaBayar(j));const [tgl,setTgl]=useState(T);const [m,setM]=useState('Transfer BCA');
+  const isCorp=j.jalur==='corporate';
+  return html`<div className="form"><${Note}>Cocokkan dengan mutasi rekening perusahaan sebelum menandai lunas.<//>
+    <div className="frow"><${Field} label="Nominal diterima"><input className="input num" id="vf-n" value=${n} onChange=${e=>setN(e.target.value)}/><//><${Field} label="Tanggal mutasi"><input className="input" type="date" id="vf-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Metode"><select className="input" id="vf-m" value=${m} onChange=${e=>setM(e.target.value)}><option>Transfer BCA</option><option>QRIS</option></select><//></div>
+    <p className="small muted">Sisa tagihan ${rp(sisaBayar(j))}. Jika nominal kurang, status tetap belum lunas.</p>
+    <${FormFoot} ok=${Number(String(n).replace(/\D/g,''))>0} label="Verifikasi" onSubmit=${()=>{const nom=Number(String(n).replace(/\D/g,''));let lunas=false;act(d=>{const x=byId(d.jobs,id);x.bayar.dibayar.push({tgl,nominal:nom,metode:m,jenis:isCorp?'Pelunasan':'Pembayaran'});if(sisaBayar(x)<=0){x.bayar.status='lunas';lunas=true}else x.bayar.status=x.bayar.dp?'dp':'belum'},sisaBayar(j)-nom<=0?'Pembayaran terverifikasi. Job lunas':'Pembayaran sebagian tercatat');closeModal()}}/></div>`;
+}
+function PhotoUploader({id,readOnly}){
+  const {s,act,notify}=useApp();const j=byId(s.jobs,id);
+  const onFiles=async e=>{const files=[...e.target.files];e.target.value='';for(const f of files){const src=await readImage(f);act(d=>{byId(d.jobs,id).foto.push({name:f.name,src})})}if(files.length)notify(files.length+' foto ditambahkan')};
+  return html`<div className="photos">${j.foto.map((f,i)=>html`<div key=${i} className=${'ph'+(f.src?'':' ph-fake')}>${f.src?html`<img src=${f.src} alt=${f.name}/>`:I.camera}<span className="cap">${f.name}</span></div>`)}
+    ${!readOnly&&html`<label className="upl" style=${{position:'relative'}}>${I.camera}<span>Tambah foto</span><input type="file" accept="image/*" multiple onChange=${onFiles}/></label>`}</div>`;
+}
+function BastUploader({id,readOnly}){
+  const {s,act}=useApp();const j=byId(s.jobs,id);
+  const onFile=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const src=f.type.startsWith('image/')?await readImage(f):null;act(d=>{byId(d.jobs,id).bast={name:f.name,src}},'BAST tersimpan di job')};
+  if(j.bast)return html`<div className="row"><span className="file-chip">${I.file}<span>${j.bast.name}</span></span>${!readOnly&&html`<button className="btn sm ghost" onClick=${()=>act(d=>{byId(d.jobs,id).bast=null})}>Ganti</button>`}</div>`;
+  if(readOnly)return html`<span className="muted small">Belum ada BAST</span>`;
+  return html`<label className="btn" style=${{position:'relative',justifySelf:'start'}}>${I.file} Unggah scan / foto BAST<input type="file" accept="image/*,application/pdf" onChange=${onFile} style=${{position:'absolute',opacity:0,width:'1px',height:'1px'}}/></label>`;
+}
+function KeputusanKlaim({k,j}){
+  const {act,openModal}=useApp();
+  return html`<div className="row"><button className="btn primary" onClick=${()=>act(d=>{const x=byId(d.klaim,k.id);x.keputusan='valid';const y=byId(d.jobs,j.id);y.gratis=true;y.nilai=0},'Klaim valid. Perbaikan gratis')}>Valid · akibat pengerjaan (gratis)</button>
+    <button className="btn" onClick=${()=>openModal({title:'Jadikan servis berbayar',body:html`<${BerbayarForm} k=${k} j=${j}/>`})}>Akibat pemakaian · berbayar</button></div>`;
+}
+function BerbayarForm({k,j}){
+  const {act,closeModal}=useApp();const [n,setN]=useState('350000');
+  return html`<div className="form"><p>Keluhan disebabkan pemakaian, bukan pengerjaan. Job klaim diubah menjadi job perbaikan berbayar.</p><${Field} label="Biaya perbaikan (Rp)"><input className="input num" id="bb-n" value=${n} onChange=${e=>setN(e.target.value)}/><//>
+    <${FormFoot} ok=${Number(n)>0} label="Jadikan berbayar" onSubmit=${()=>{act(d=>{byId(d.klaim,k.id).keputusan='berbayar';const y=byId(d.jobs,j.id);y.jenis='Perbaikan';y.gratis=false;y.nilai=Number(String(n).replace(/\D/g,''))},'Klaim dialihkan ke servis berbayar');closeModal()}}/></div>`;
+}
+function PaymentCard({j}){
+  const {openModal,act}=useApp();
+  const paid=j.bayar.dibayar;const isCorp=j.jalur==='corporate';
+  let body;
+  if(j.bayar.status==='gratis'||(j.gratis&&j.status!=='selesai'))body=html`<${Note} tone="ok" icon=${I.check}>Gratis. Klaim garansi valid (akibat pengerjaan).<//>`;
+  else if(j.bayar.status==='lunas')body=html`<${Note} tone="ok" icon=${I.check}>Lunas. Mutasi sudah diverifikasi admin.<//>`;
+  else if(j.klaimId&&!j.nilai)body=html`<p className="small muted">Menunggu hasil cek teknisi: gratis atau berbayar.</p>`;
+  else if(!isCorp){
+    body=j.status!=='selesai'?html`<p className="small muted">Jalur personal tanpa DP${j.bayar.dp?' (DP diaktifkan untuk job ini)':''}. Tagihan muncul setelah job selesai.</p>`
+      :html`${overdue24(j)?html`<${Note} tone="bad" icon=${I.alert}>Belum dibayar lewat 1×24 jam sejak selesai. Masuk daftar tagihan admin.<//>`:html`<${Note} tone="warn">Menunggu transfer / QRIS dari customer.<//>`}
+        <button className="btn primary" onClick=${()=>openModal({title:'Verifikasi mutasi',body:html`<${VerifyForm} id=${j.id}/>`})}>Verifikasi mutasi → Lunas</button>`;
+  }else{
+    if(j.status!=='selesai')body=html`<p className="small muted">Pelunasan ditagih setelah job selesai dan BAST ditandatangani.</p>`;
+    else if(!j.bast)body=html`<${Note} tone="warn" icon=${I.alert}>Unggah BAST bertanda tangan dulu. BAST adalah syarat menagih pelunasan.<//>`;
+    else if(!j.bayar.ditagih)body=html`<button className="btn primary" onClick=${()=>act(d=>{byId(d.jobs,j.id).bayar.ditagih=T},'Tagihan pelunasan tercatat terkirim')}>Tagih pelunasan</button>`;
+    else body=html`<p className="small muted">Tagihan pelunasan dikirim ${fd(j.bayar.ditagih)} (${rel(j.bayar.ditagih)}). Tampil di daftar piutang owner sampai lunas.</p><button className="btn primary" onClick=${()=>openModal({title:'Verifikasi pelunasan',body:html`<${VerifyForm} id=${j.id}/>`})}>Verifikasi pelunasan → Lunas</button>`;
+  }
+  return html`<div className="card"><div className="card-h"><h2>Pembayaran</h2><div className="right"><${BayarPill} j=${j}/></div></div>
+    <dl className="kv"><dt>Nilai job</dt><dd className="num"><b>${j.nilai?rp(j.nilai):'—'}</b></dd>${paid.map((p,i)=>html`<dt key=${'a'+i}>${p.jenis}</dt><dd key=${'b'+i} className="num">${rp(p.nominal)} <span className="muted small">· ${p.metode} · ${fd(p.tgl)}</span></dd>`)}${j.nilai>0&&!j.gratis?html`<dt>Sisa</dt><dd className="num">${rp(sisaBayar(j))}</dd>`:''}</dl>${body}</div>`;
+}
+function JobDetail({id}){
+  const {s,act,go,openModal}=useApp();
+  const j=byId(s.jobs,id);if(!j)return html`<p>Job tidak ditemukan.</p>`;
+  const c=byId(s.customers,j.customerId);const units=unitsOfJob(s,j);const g=s.garansi.find(x=>x.jobId===j.id);const k=j.klaimId&&byId(s.klaim,j.klaimId);
+  const M=(title,body,wide)=>()=>openModal({title,body,wide});
+  const steps=[...(j.survey?['menunggu survey']:[]),'terjadwal','proses','selesai'];
+  const canFinish=j.foto.length>0&&j.konfirmasi&&!(k&&!k.keputusan);
+  const isInstall=['Instalasi','Tambah unit'].includes(j.jenis);
+  let action;
+  if(j.status==='menunggu survey')action=html`<dl className="kv"><dt>Survey</dt><dd>${fds(j.survey.tgl)} · ${tekName(s,j.survey.surveyor)}</dd><dt>Hasil</dt><dd>${j.survey.hasil||html`<span className="muted">Belum masuk</span>`}</dd></dl>
+    <div className="row">${!j.survey.hasil&&html`<button className="btn" onClick=${M('Hasil survey',html`<${HasilSurveyForm} id=${id} isJob/>`)}>Isi hasil survey</button>`}<button className="btn primary" disabled=${!j.survey.hasil} onClick=${M('Jadwalkan pengerjaan',html`<${JadwalkanSetelahSurvey} id=${id}/>`)}>Survey selesai → jadwalkan</button></div>`;
+  else if(j.status==='terjadwal')action=html`<p className="small muted">Teknisi mengubah status dari HP. Admin juga bisa mengubahnya berdasarkan laporan WA.</p><div className="row"><button className="btn primary" onClick=${()=>act(d=>{byId(d.jobs,id).status='proses'},'Status job: proses')}>Mulai pengerjaan</button><button className="btn" onClick=${M('Reschedule job',html`<${RescheduleForm} id=${id}/>`)}>Reschedule</button></div>`;
+  else if(j.status==='proses')action=html`${!canFinish&&html`<${Note} tone="warn">Syarat selesai: minimal 1 foto bukti hasil${j.konfirmasi?'':' + konfirmasi customer'}${k&&!k.keputusan?' + keputusan klaim':''}.<//>`}
+    <div className="row"><button className="btn primary" disabled=${!canFinish} onClick=${()=>act(d=>completeJob(d,byId(d.jobs,id)),JENIS_GARANSI.includes(j.jenis)&&!j.klaimId?'Job selesai. Garansi terbit otomatis':'Job selesai, riwayat servis tercatat')}>Tandai selesai</button><button className="btn" onClick=${M('Jadwal ulang / lanjut hari lain',html`<${RescheduleForm} id=${id}/>`)}>Lanjut hari lain</button></div>`;
+  else action=html`<${Note} tone="ok" icon=${I.check}>Selesai ${fd(j.selesaiAt)}. ${g?'Garansi '+g.id+' terbit otomatis.':''}<//>`;
+  return html`
+    <${Back} to="job" label="Semua job"/>
+    <${PageHead} title=${html`<span className="mono" style=${{fontWeight:500}}>${j.id}</span> ${c.nama}`} sub=${`${j.jenis} · ${j.jalur==='corporate'?'Corporate':'Personal'}${j.leadId?' · dari lead '+j.leadId:j.sumber==='repeat'?' · repeat order':j.sumber==='reminder'?' · dari reminder servis':j.sumber==='klaim'?' · klaim garansi':''}`} actions=${html`<${Pill} v=${j.status}/><${BayarPill} j=${j}/>`}/>
+    ${j.halangan&&html`<${Note} tone="bad" icon=${I.alert}><b>Halangan dilaporkan ${tekName(s,j.halangan.oleh)} ${rel(j.halangan.tgl)}:</b> ${j.halangan.alasan}. ${j.halangan.catatan||''} <button className="btn sm" style=${{marginLeft:'6px'}} onClick=${M('Reschedule job',html`<${RescheduleForm} id=${id}/>`)}>Reschedule</button><//>`}
+    <div className="grid2">
+      <div className="stack">
+        <div className="card"><${Stepper} steps=${steps} current=${j.status}/>${action}</div>
+        ${k&&html`<div className="card"><div className="card-h"><h2>Klaim garansi ${k.id}</h2><div className="right"><${KlaimPill} k=${k}/></div></div><p>${k.keluhan}</p>${!k.keputusan?html`<p className="small muted">Keputusan setelah teknisi cek di lokasi:</p><${KeputusanKlaim} k=${k} j=${j}/><${Open} n=${2} assume="admin mencatat keputusan berdasarkan laporan teknisi."/>`:''}</div>`}
+        <div className="card"><div className="card-h"><h2>Unit AC</h2>${isInstall&&j.rencanaUnit>0&&html`<span className="muted small num">${units.length} / ${j.rencanaUnit} rencana unit</span>`}<div className="right">${isInstall&&html`<button className="btn sm" onClick=${M('Input data unit AC',html`<${UnitForm} jobId=${id}/>`)}>${I.plus} Tambah unit</button>`}</div></div>
+          ${isInstall&&j.rencanaUnit>0&&html`<div className="progress"><i style=${{width:Math.min(100,units.length/j.rencanaUnit*100)+'%'}}></i></div>`}
+          ${units.length?html`<div className="table-wrap"><table><thead><tr><th>Merk / tipe</th><th>No. seri</th><th>Lokasi</th><th>Tgl pasang</th></tr></thead><tbody>${units.map(u=>html`<tr key=${u.id}><td>${u.merk} ${u.tipe}</td><td className="mono">${u.seri}</td><td>${u.lokasi}</td><td>${fd(u.tglPasang)}</td></tr>`)}</tbody></table></div>`:html`<div className="empty">${isInstall?'Belum ada unit. Data unit diinput admin dari laporan teknisi.':'Tidak ada unit terkait.'}</div>`}</div>
+        <div className="card"><h2>Bukti pekerjaan</h2>
+          <${PhotoUploader} id=${id} readOnly=${j.status==='selesai'}/>
+          <${Check} id="jd-konf" checked=${j.konfirmasi} onChange=${x=>act(d=>{byId(d.jobs,id).konfirmasi=x})} title="Customer sudah konfirmasi hasil" desc="Customer mengecek unit menyala normal & area bersih"/>
+          ${j.jalur==='corporate'&&html`<div className="field"><span className="flabel">BAST ditandatangani (template PDF, di-scan / difoto)</span><${BastUploader} id=${id}/></div>`}</div>
+        ${j.reschedule.length>0&&html`<div className="card"><h2>Riwayat reschedule</h2><ul className="timeline">${j.reschedule.map((r,i)=>html`<li key=${i}><span className="d">${fd(r.tgl)}</span><span>${fds(r.dari)} → <b>${fds(r.ke)}</b> · ${r.alasan}</span></li>`)}</ul></div>`}
+      </div>
+      <div className="stack">
+        <div className="card"><h2>Customer</h2><dl className="kv"><dt>Nama</dt><dd><button className="fgo" onClick=${()=>go('customer-detail',c.id)}>${c.nama}</button></dd>${c.pic?html`<dt>PIC</dt><dd>${c.pic}</dd>`:''}<dt>No. HP</dt><dd className="mono">${c.hp}</dd><dt>Alamat</dt><dd>${c.alamat}</dd></dl></div>
+        <div className="card"><div className="card-h"><h2>Tim & jadwal</h2>${!['selesai','menunggu survey'].includes(j.status)&&html`<div className="right"><button className="btn sm" onClick=${M('Reschedule job',html`<${RescheduleForm} id=${id}/>`)}>Ubah</button></div>`}</div>
+          <dl className="kv"><dt>Jadwal</dt><dd>${j.jadwal?fds(j.jadwal)+' · '+j.jam:'Setelah survey'}</dd><dt>Teknisi</dt><dd>${j.teknisi.length?j.teknisi.map(t=>tekName(s,t)).join(', '):'—'}</dd>${j.catatan?html`<dt>Catatan</dt><dd>${j.catatan}</dd>`:''}</dl></div>
+        <${PaymentCard} j=${j}/>
+        ${JENIS_GARANSI.includes(j.jenis)&&!j.klaimId&&html`<div className="card"><h2>Garansi</h2>${g?html`<dl className="kv"><dt>No.</dt><dd className="mono">${g.id}</dd><dt>Berlaku</dt><dd>${fd(g.mulai)} – ${fd(garansiEnd(g))}</dd><dt>Status</dt><dd>${garansiAktif(g)?html`<${Pill} v="aktif">Aktif · sisa ${diff(T,garansiEnd(g))} hari<//>`:html`<${Pill} v="berakhir"/>`}</dd></dl>`
+          :html`<p className="small muted">Terbit otomatis saat job selesai.</p><${Field} label="Masa garansi (hari)" hint="Default 90 hari, bisa custom per job."><input className="input num" type="number" id="jd-gar" value=${j.garansiHari} onChange=${e=>act(d=>{byId(d.jobs,id).garansiHari=Number(e.target.value)||0})}/><//>`}</div>`}
+      </div>
+    </div>`;
+}
+
+/* ---------- Kalender ---------- */
+function Kalender(){
+  const {s,go,role,tekId}=useApp();const [off,setOff]=useState(0);
+  const dow=(T0.getDay()+6)%7;const start=addDays(T,-dow+off*7);
+  const days=[...Array(7)].map((_,i)=>addDays(start,i));
+  const teks=role==='teknisi'?s.teknisi.filter(t=>t.id===tekId):s.teknisi;
+  const colr={job:'var(--info)',survey:'var(--violet)',jsurvey:'var(--violet)'};
+  const open=a=>{if(role==='teknisi')go(a.kind==='job'?'tugas-detail':'survey-detail',a.id);else go(a.kind==='survey'?'lead-detail':'job-detail',a.id)};
+  return html`
+    <${PageHead} title=${role==='teknisi'?'Kalender saya':'Kalender teknisi'} sub="Job dan survey berada di satu kalender. Sel merah menandai teknisi dengan lebih dari satu jadwal di hari yang sama." actions=${html`<button className="btn" onClick=${()=>setOff(off-1)}>${I.back}</button><button className="btn" onClick=${()=>setOff(0)}>Minggu ini</button><button className="btn" onClick=${()=>setOff(off+1)}>${I.chev}</button>`}/>
+    <div className="legend"><span><span className="pill t-info">Job</span></span><span><span className="pill t-violet">Survey</span></span><span><span className="pill t-warn">Proses</span></span><span><span className="pill t-bad">Halangan</span></span><span className="muted">${fd(days[0])} – ${fd(days[6])}</span></div>
+    <div className="card flush"><div className="cal-wrap"><div className="cal">
+      <div className="hd">Teknisi</div>${days.map(d=>html`<div key=${d} className=${'hd'+(d===T?' today':'')}>${fds(d)}</div>`)}
+      ${teks.map(t=>html`<${React.Fragment} key=${t.id}><div className="who"><${Av} s=${s} id=${t.id}/><div><div>${t.nama}</div><div className="small muted">${t.senior?'Senior · surveyor':'Teknisi'}</div></div></div>
+        ${days.map(d=>{const it=agendaFor(s,t.id,d);const active=it.filter(x=>x.status!=='selesai');return html`<div key=${d} className=${'cell'+(d===T?' today':'')+(active.length>1?' clash':'')}>${it.map(a=>html`<button key=${a.id} className=${'ev'+(a.status==='selesai'?' faded':'')} style=${{'--c':a.halangan?'var(--bad)':a.status==='proses'?'var(--warn)':colr[a.kind]}} onClick=${()=>open(a)}><b>${a.jam} · ${a.kind==='job'?a.id:'Survey'}</b><span>${a.label}</span></button>`)}</div>`})}<//>`)}
+    </div></div></div>`;
+}
+
+/* ---------- Tagihan & piutang ---------- */
+function Tagihan(){
+  const {s,go}=useApp();
+  const personal=s.jobs.filter(isTagihanPersonal).sort((a,b)=>a.selesaiAt.localeCompare(b.selesaiAt));
+  const corp=s.jobs.filter(isPiutangCorp);
+  const dpAktif=s.jobs.filter(j=>j.jalur==='corporate'&&j.status!=='selesai'&&j.bayar.status==='dp');
+  const tot=a=>a.reduce((x,j)=>x+sisaBayar(j),0);
+  const row=(j,extra)=>{const c=byId(s.customers,j.customerId);return html`<tr key=${j.id} className="click" tabIndex="0" onClick=${()=>go('job-detail',j.id)} onKeyDown=${e=>e.key==='Enter'&&go('job-detail',j.id)}><td className="mono">${j.id}</td><td><div className="t1">${c.nama}</div><div className="t2 mono">${c.hp}</div></td>${extra}<td className="r num"><b>${rp(sisaBayar(j))}</b></td></tr>`};
+  return html`
+    <${PageHead} title="Tagihan & piutang" sub="Personal: tanpa DP, bayar penuh setelah selesai. Corporate: DP di depan, pelunasan ditagih setelah BAST."/>
+    <div className="kpis"><div className="kpi alert"><span className="l">Tagihan personal</span><span className="v">${rp(tot(personal))}</span><span className="s">${personal.filter(overdue24).length} job lewat 1×24 jam</span></div><div className="kpi"><span className="l">Piutang corporate</span><span className="v">${rp(tot(corp))}</span><span className="s">${corp.length} job selesai, belum lunas</span></div><div className="kpi"><span className="l">Sisa kontrak berjalan</span><span className="v">${rp(tot(dpAktif))}</span><span className="s">${dpAktif.length} job corporate, DP sudah masuk</span></div></div>
+    <div className="card flush"><div className="card" style=${{border:0}}><div className="card-h"><h2>Tagihan personal</h2><span className="muted small">Belum bayar > 1×24 jam masuk daftar ini</span></div></div>
+      <div className="table-wrap"><table><thead><tr><th>Job</th><th>Customer</th><th>Selesai</th><th>Status</th><th className="r">Sisa</th></tr></thead><tbody>
+      ${personal.map(j=>row(j,html`<td>${fd(j.selesaiAt)}<div className="t2">${rel(j.selesaiAt)}</div></td><td><${BayarPill} j=${j}/></td>`))}
+      ${!personal.length&&html`<tr><td colSpan="5"><div className="empty">Tidak ada tagihan personal.</div></td></tr>`}</tbody></table></div></div>
+    <${Open} n=${1} assume="tagihan tampil di sini tanpa batas waktu sampai lunas. Admin follow-up via WA."/>
+    <div className="card flush"><div className="card" style=${{border:0}}><div className="card-h"><h2>Piutang corporate</h2><span className="muted small">Tampil juga di ringkasan owner</span></div></div>
+      <div className="table-wrap"><table><thead><tr><th>Job</th><th>Customer</th><th>Nilai</th><th>BAST</th><th>Ditagih</th><th className="r">Sisa</th></tr></thead><tbody>
+      ${corp.map(j=>row(j,html`<td className="num">${rp(j.nilai)}<div className="t2">DP ${rp(dibayar(j))}</div></td><td>${j.bast?html`<${Pill} tone="ok">Ada<//>`:html`<${Pill} tone="bad">Belum<//>`}</td><td>${j.bayar.ditagih?fd(j.bayar.ditagih):html`<span className="muted">Belum</span>`}</td>`))}
+      ${!corp.length&&html`<tr><td colSpan="6"><div className="empty">Tidak ada piutang corporate.</div></td></tr>`}</tbody></table></div></div>`;
+}
+
+/* ---------- Customer & unit ---------- */
+function CustomerList(){
+  const {s,go}=useApp();const [q,setQ]=useState('');const [tp,setTp]=useState('semua');
+  const rows=s.customers.filter(c=>(tp==='semua'||c.tipe===tp)&&(!q||(c.nama+c.hp+c.alamat).toLowerCase().includes(q.toLowerCase())));
+  return html`
+    <${PageHead} title="Customer & unit AC" sub="Customer lama dilayani langsung dari sini tanpa lewat pipeline lead: servis, cuci, tambah unit, klaim garansi."/>
+    <div className="toolbar"><${Seg} value=${tp} onChange=${setTp} options=${[['semua','Semua'],['personal','Personal'],['corporate','Corporate']]}/><input className="search" id="cust-q" placeholder="Cari nama, HP, alamat" value=${q} onChange=${e=>setQ(e.target.value)}/></div>
+    <div className="card flush"><div className="table-wrap"><table><thead><tr><th>Customer</th><th>Jalur</th><th className="r">Unit AC</th><th>Garansi</th><th>Servis berikutnya</th><th>Job terakhir</th></tr></thead><tbody>
+      ${rows.map(c=>{const us=s.units.filter(u=>u.customerId===c.id);const ga=s.garansi.filter(g=>g.customerId===c.id&&garansiAktif(g));const js=s.jobs.filter(j=>j.customerId===c.id).sort((a,b)=>(b.jadwal||'').localeCompare(a.jadwal||''));const due=us.filter(u=>diff(u.servisTerakhir,T)>=90).length;
+        return html`<tr key=${c.id} className="click" tabIndex="0" onClick=${()=>go('customer-detail',c.id)} onKeyDown=${e=>e.key==='Enter'&&go('customer-detail',c.id)}><td><div className="t1">${c.nama}</div><div className="t2">${c.alamat}</div></td><td><${Jalur} j=${c.tipe}/></td><td className="r num">${us.length}</td><td>${ga.length?html`<${Pill} v="aktif">${ga.length} aktif<//>`:html`<span className="muted small">—</span>`}</td><td>${due?html`<${Pill} tone="warn">${due} unit jatuh tempo<//>`:html`<span className="muted small">—</span>`}</td><td>${js[0]?html`<span className="mono">${js[0].id}</span> <${Pill} v=${js[0].status}/>`:'—'}</td></tr>`})}</tbody></table></div></div>`;
+}
+function RepeatOrderForm({cid}){
+  const {s,act,go,closeModal}=useApp();const c=byId(s.customers,cid);const us=s.units.filter(u=>u.customerId===cid);
+  return html`<${JobForm} jenisOpts=${['Servis','Cuci AC','Tambah unit','Perbaikan']} allowSurvey unitsPick=${us} init=${{rencanaUnit:0}} submitLabel="Buat job" onSubmit=${v=>{const jid=nextId(s.jobs,'J-',4);act(d=>createJob(d,v,{customerId:cid,jalur:c.tipe,sumber:'repeat'}),v.perluSurvey?`Job ${jid} dibuat · menunggu survey`:`Job ${jid} dibuat & terjadwal`);closeModal();go('job-detail',jid)}}/>`;
+}
+function CustomerDetail({id}){
+  const {s,go,openModal}=useApp();const c=byId(s.customers,id);if(!c)return html`<p>Customer tidak ditemukan.</p>`;
+  const us=s.units.filter(u=>u.customerId===id);const js=s.jobs.filter(j=>j.customerId===id).sort((a,b)=>b.id.localeCompare(a.id));
+  const rw=s.riwayat.filter(r=>us.some(u=>u.id===r.unitId)).sort((a,b)=>b.tgl.localeCompare(a.tgl));
+  const ga=s.garansi.filter(g=>g.customerId===id);
+  return html`
+    <${Back} to="customer" label="Semua customer"/>
+    <${PageHead} title=${c.nama} sub=${c.alamat} actions=${html`<${Jalur} j=${c.tipe}/><button className="btn" onClick=${()=>openModal({title:'Buat klaim garansi',body:html`<${KlaimForm} cid=${id}/>`})}>${I.shield} Klaim garansi</button><button className="btn primary" onClick=${()=>openModal({title:'Repeat order · '+c.nama,body:html`<${RepeatOrderForm} cid=${id}/>`,wide:true})}>${I.plus} Buat job</button>`}/>
+    <div className="grid2">
+      <div className="stack">
+        <div className="card flush"><div className="card" style=${{border:0}}><h2>Unit AC tercatat</h2></div><div className="table-wrap"><table><thead><tr><th>Unit</th><th>No. seri</th><th>Lokasi</th><th>Dipasang</th><th>Servis terakhir</th><th>Garansi</th></tr></thead><tbody>
+          ${us.map(u=>{const g=garansiOfUnit(s,u);const age=diff(u.servisTerakhir,T);return html`<tr key=${u.id}><td><div className="t1">${u.merk}</div><div className="t2">${u.tipe}</div></td><td className="mono">${u.seri}</td><td>${u.lokasi}</td><td>${fd(u.tglPasang)}</td><td>${fd(u.servisTerakhir)}<div className="t2" style=${age>=90?{color:'var(--warn)'}:null}>${age} hari lalu</div></td><td>${g?(garansiAktif(g)?html`<${Pill} v="aktif">s/d ${fd(garansiEnd(g))}<//>`:html`<${Pill} v="berakhir"/>`):'—'}</td></tr>`})}
+          ${!us.length&&html`<tr><td colSpan="6"><div className="empty">Belum ada unit tercatat.</div></td></tr>`}</tbody></table></div></div>
+        <div className="card"><h2>Riwayat servis</h2>${rw.length?html`<ul className="timeline">${rw.map(r=>{const u=byId(s.units,r.unitId);return html`<li key=${r.id}><span className="d">${fd(r.tgl)}</span><span><b>${r.jenis}</b> · ${u.merk} ${u.lokasi}${r.jobId?html` · <button className="fgo" onClick=${()=>go('job-detail',r.jobId)}>${r.jobId}</button>`:''} <span className="muted">· ${r.teknisi}</span></span></li>`})}</ul>`:html`<div className="empty">Belum ada riwayat.</div>`}</div>
+      </div>
+      <div className="stack">
+        <div className="card"><h2>Kontak</h2><dl className="kv">${c.pic?html`<dt>PIC</dt><dd>${c.pic}</dd>`:''}<dt>No. HP</dt><dd className="mono">${c.hp}</dd><dt>Alamat</dt><dd>${c.alamat}</dd></dl></div>
+        <div className="card"><h2>Job</h2>${js.map(j=>html`<button key=${j.id} className="ag" style=${{gridTemplateColumns:'64px minmax(0,1fr) auto'}} onClick=${()=>go('job-detail',j.id)}><span className="mono">${j.id}</span><div><div style=${{fontWeight:600}}>${j.jenis}</div><div className="small muted">${j.jadwal?fd(j.jadwal):'Menunggu survey'}</div></div><${Pill} v=${j.status}/></button>`)}${!js.length&&html`<div className="empty">Belum ada job.</div>`}</div>
+        <div className="card"><h2>Garansi</h2>${ga.length?ga.map(g=>html`<div key=${g.id} className="row" style=${{justifyContent:'space-between'}}><span><span className="mono">${g.id}</span> · ${g.jobId}</span>${garansiAktif(g)?html`<${Pill} v="aktif">sisa ${diff(T,garansiEnd(g))} hari<//>`:html`<${Pill} v="berakhir"/>`}</div>`):html`<div className="empty">Belum ada garansi.</div>`}</div>
+      </div>
+    </div>`;
+}
+
+/* ---------- Garansi & klaim ---------- */
+function KlaimForm({cid:cid0}){
+  const {s,act,go,openModal,closeModal}=useApp();
+  const [cid,setCid]=useState(cid0||'');const [uid,setUid]=useState('');const [kel,setKel]=useState('');
+  const eligible=s.customers.filter(c=>s.garansi.some(g=>g.customerId===c.id&&garansiAktif(g)));
+  const us=cid?s.units.filter(u=>u.customerId===cid&&(()=>{const g=garansiOfUnit(s,u);return g&&garansiAktif(g)})()):[];
+  const noGaransi=cid&&!us.length;
+  return html`<div className="form">
+    <${Field} label="Customer" hint="Hanya customer dengan garansi aktif yang bisa klaim."><select className="input" id="kf-c" value=${cid} onChange=${e=>{setCid(e.target.value);setUid('')}}><option value="">Pilih customer</option>${s.customers.map(c=>html`<option key=${c.id} value=${c.id}>${c.nama}${eligible.includes(c)?'':' (garansi tidak aktif)'}</option>`)}</select><//>
+    ${noGaransi?html`<${Note} tone="warn" icon=${I.alert}>Tidak ada unit dengan garansi aktif. Keluhan ditangani sebagai job servis berbayar.<//><div><button className="btn" onClick=${()=>openModal({title:'Repeat order',body:html`<${RepeatOrderForm} cid=${cid}/>`,wide:true})}>Buat job servis berbayar</button></div>`
+    :cid&&html`<${Field} label="Unit yang dikeluhkan"><div className="tpick">${us.map(u=>{const g=garansiOfUnit(s,u);return html`<label key=${u.id} className=${'check'+(uid===u.id?' on':'')}><input type="radio" name="kf-u" checked=${uid===u.id} onChange=${()=>setUid(u.id)}/><div><b>${u.merk} ${u.tipe} · ${u.lokasi}</b><span>Garansi ${g.id} s/d ${fd(garansiEnd(g))}</span></div></label>`})}</div><//>
+      <${Field} label="Keluhan customer (dari WA)"><textarea className="input" id="kf-k" value=${kel} onChange=${e=>setKel(e.target.value)}></textarea><//>`}
+    ${!noGaransi&&html`<${FormFoot} ok=${cid&&uid&&kel.trim()} label="Buat klaim" onSubmit=${()=>{const kid=nextId(s.klaim,'K-',3);act(d=>{const u=byId(d.units,uid);d.klaim.push({id:kid,garansiId:garansiOfUnit(d,u).id,customerId:cid,unitId:uid,keluhan:kel,tgl:T,status:'diajukan',keputusan:null,jobId:null})},`Klaim ${kid} diajukan`);closeModal();go('garansi')}}/>`}
+  </div>`;
+}
+function JadwalCekForm({kid}){
+  const {s,act,closeModal}=useApp();const k=byId(s.klaim,kid);const c=byId(s.customers,k.customerId);
+  const [tgl,setTgl]=useState(D(1));const [jam,setJam]=useState('10:00');const [tek,setTek]=useState([]);
+  return html`<div className="form"><p className="small muted">Membuat job “Klaim Garansi” untuk teknisi. Teknisi cek penyebab di lokasi, lalu keputusan dicatat: gratis atau berbayar.</p>
+    <div className="frow"><${Field} label="Tanggal cek"><input className="input" type="date" id="jc-t" value=${tgl} onChange=${e=>setTgl(e.target.value)}/><//><${Field} label="Jam"><input className="input" type="time" id="jc-j" value=${jam} onChange=${e=>setJam(e.target.value)}/><//></div>
+    <${Field} label="Teknisi"><${TeknisiPicker} date=${tgl} value=${tek} onChange=${setTek}/><//>
+    <${FormFoot} ok=${tek.length} label="Jadwalkan pengecekan" onSubmit=${()=>{act(d=>{const jid=createJob(d,{jenis:'Klaim Garansi',jadwal:tgl,jam,teknisi:tek,nilai:0,rencanaUnit:0,catatan:k.keluhan,unitIds:[k.unitId]},{customerId:k.customerId,jalur:c.tipe,sumber:'klaim',klaimId:kid});const x=byId(d.klaim,kid);x.status='dicek';x.jobId=jid},'Pengecekan klaim dijadwalkan');closeModal()}}/></div>`;
+}
+function Garansi(){
+  const {s,go,openModal}=useApp();const [tab,setTab]=useState('klaim');
+  const kl=[...s.klaim].sort((a,b)=>b.id.localeCompare(a.id));
+  const gs=[...s.garansi].sort((a,b)=>garansiEnd(b).localeCompare(garansiEnd(a)));
+  return html`
+    <${PageHead} title="Garansi & klaim" sub="Garansi terbit otomatis saat job instalasi / perbaikan selesai (default 90 hari). Klaim hanya untuk garansi yang masih aktif." actions=${html`<button className="btn primary" onClick=${()=>openModal({title:'Buat klaim garansi',body:html`<${KlaimForm}/>`})}>${I.plus} Klaim baru</button>`}/>
+    <div className="tabs"><button className=${'tab'+(tab==='klaim'?' on':'')} onClick=${()=>setTab('klaim')}>Klaim<span className="tcount">${kl.filter(k=>k.status!=='selesai').length} terbuka</span></button><button className=${'tab'+(tab==='garansi'?' on':'')} onClick=${()=>setTab('garansi')}>Garansi<span className="tcount">${s.garansi.filter(garansiAktif).length} aktif</span></button></div>
+    ${tab==='klaim'?html`
+      <div className="stack">${kl.map(k=>{const c=byId(s.customers,k.customerId);const u=byId(s.units,k.unitId);const j=k.jobId&&byId(s.jobs,k.jobId);
+        return html`<div key=${k.id} className="card"><div className="card-h"><span className="mono">${k.id}</span><h2>${c.nama}</h2><div className="right"><${KlaimPill} k=${k}/></div></div>
+          <p>${k.keluhan}</p><dl className="kv"><dt>Unit</dt><dd>${u.merk} ${u.tipe} · ${u.lokasi} <span className="mono muted">${u.seri}</span></dd><dt>Garansi</dt><dd><span className="mono">${k.garansiId}</span> · s/d ${fd(garansiEnd(byId(s.garansi,k.garansiId)))}</dd><dt>Dilaporkan</dt><dd>${fd(k.tgl)}</dd>${j?html`<dt>Job</dt><dd><button className="fgo" onClick=${()=>go('job-detail',j.id)}>${j.id}</button> · ${fds(j.jadwal)} · ${j.teknisi.map(t=>tekName(s,t)).join(', ')}</dd>`:''}</dl>
+          ${k.status==='diajukan'&&html`<div className="row"><button className="btn primary" onClick=${()=>openModal({title:'Jadwalkan pengecekan klaim',body:html`<${JadwalCekForm} kid=${k.id}/>`})}>Jadwalkan pengecekan</button></div>`}
+          ${k.status==='dicek'&&!k.keputusan&&j&&html`<p className="small muted">Hasil cek teknisi di lokasi:</p><${KeputusanKlaim} k=${k} j=${j}/>`}
+          ${k.keputusan&&k.status!=='selesai'&&html`<p className="small muted">Menunggu job ${j.id} selesai. Perbaikan akan tercatat di riwayat servis unit.</p>`}</div>`})}
+        ${!kl.length&&html`<div className="empty">Belum ada klaim.</div>`}</div>
+      <${Open} n=${2} assume="keputusan valid / berbayar dicatat admin berdasarkan laporan teknisi yang mengecek di lokasi."/>`
+    :html`<div className="card flush"><div className="table-wrap"><table><thead><tr><th>No.</th><th>Customer</th><th>Job</th><th>Mulai</th><th>Berakhir</th><th className="r">Hari</th><th>Status</th></tr></thead><tbody>
+      ${gs.map(g=>{const c=byId(s.customers,g.customerId);const on=garansiAktif(g);return html`<tr key=${g.id} className="click" onClick=${()=>go('job-detail',g.jobId)}><td className="mono">${g.id}</td><td>${c.nama}</td><td className="mono">${g.jobId}</td><td>${fd(g.mulai)}</td><td>${fd(garansiEnd(g))}</td><td className="r num">${g.hari}</td><td>${on?html`<${Pill} v="aktif">Aktif · sisa ${diff(T,garansiEnd(g))} hari<//>`:html`<${Pill} v="berakhir"/>`}</td></tr>`})}</tbody></table></div></div>`}`;
+}
+
+/* ---------- Reminder servis ---------- */
+function Reminder(){
+  const {s,act,go,openModal,closeModal,notify}=useApp();
+  const units=reminderUnits(s);
+  const groups=[...new Set(units.map(u=>u.customerId))].map(cid=>({c:byId(s.customers,cid),units:units.filter(u=>u.customerId===cid),open:openJobFor(s,cid),log:s.reminderLog[cid]}));
+  const aktif=groups.filter(g=>!g.open&&!(g.log&&g.log.status==='ditolak'));
+  const lain=groups.filter(g=>g.open||(g.log&&g.log.status==='ditolak'));
+  const pesan=g=>`Halo ${g.c.nama}, ini Sehawa. AC ${g.units.map(u=>u.lokasi.toLowerCase()).join(' & ')} terakhir diservis ${diff(g.units[0].servisTerakhir,T)} hari lalu. Supaya tetap dingin & hemat listrik, kami sarankan cuci AC rutin tiap 3 bulan. Mau kami jadwalkan minggu ini?`;
+  const buatJob=g=>openModal({title:'Customer setuju · buat job cuci AC',wide:true,body:html`<${JobForm} jenisOpts=${['Cuci AC','Servis']} unitsPick=${g.units} init=${{unitIds:g.units.map(u=>u.id),rencanaUnit:g.units.length,nilai:g.units.length*150000}} submitLabel="Buat job" onSubmit=${v=>{const jid=nextId(s.jobs,'J-',4);act(d=>createJob(d,v,{customerId:g.c.id,jalur:g.c.tipe,sumber:'reminder'}),`Job ${jid} dibuat dari reminder`);closeModal();go('job-detail',jid)}}/>`});
+  return html`
+    <${PageHead} title="Reminder servis rutin" sub="Sistem mendeteksi unit yang ±3 bulan belum diservis sejak dipasang atau servis terakhir. Admin menawarkan cuci / maintenance via WA."/>
+    <${Open} n=${4} assume="interval 90 hari dari tanggal pasang / servis terakhir, dan admin yang mengeksekusi penawaran."/>
+    <div className="grid2" style=${{gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))'}}>${aktif.map(g=>html`<div key=${g.c.id} className="card">
+      <div className="card-h"><h2>${g.c.nama}</h2><${Jalur} j=${g.c.tipe}/><div className="right">${g.log?html`<${Pill} tone="info">Ditawarkan ${rel(g.log.tgl)}<//>`:html`<${Pill} tone="warn">Belum ditawarkan<//>`}</div></div>
+      <ul className="timeline">${g.units.map(u=>html`<li key=${u.id}><span className="d" style=${{color:'var(--warn)'}}>${diff(u.servisTerakhir,T)} hari</span><span>${u.merk} ${u.tipe} · ${u.lokasi}</span></li>`)}</ul>
+      <div className="note" style=${{fontSize:'12.5px'}}>${I.phone}<div style=${{userSelect:'all'}}>${pesan(g)}</div></div>
+      <div className="row"><button className="btn sm" onClick=${()=>{copyText(pesan(g),notify);act(d=>{d.reminderLog[g.c.id]={status:'ditawarkan',tgl:T}})}}>${I.copy} Salin pesan & tandai ditawarkan</button></div>
+      <div className="row"><button className="btn primary sm" onClick=${()=>buatJob(g)}>Setuju → buat job</button><button className="btn sm ghost" onClick=${()=>act(d=>{d.reminderLog[g.c.id]={status:'ditolak',tgl:T}},'Ditandai belum tertarik')}>Belum tertarik</button></div></div>`)}
+      ${!aktif.length&&html`<div className="empty">Tidak ada unit yang jatuh tempo servis.</div>`}</div>
+    ${lain.length>0&&html`<div className="card"><h2>Tidak perlu ditawarkan sekarang</h2>${lain.map(g=>html`<div key=${g.c.id} className="row" style=${{justifyContent:'space-between'}}><span><b>${g.c.nama}</b> · ${g.units.length} unit</span>${g.open?html`<button className="btn sm" onClick=${()=>go('job-detail',g.open.id)}>Sudah ada job ${g.open.id}</button>`:html`<span className="row"><span className="muted small">Belum tertarik (${fd(g.log.tgl)})</span><button className="btn sm ghost" onClick=${()=>act(d=>{delete d.reminderLog[g.c.id]})}>Aktifkan lagi</button></span>`}</div>`)}</div>`}`;
+}
+
+/* ---------- Tampilan teknisi ---------- */
+function TugasSaya(){
+  const {s,go,tekId}=useApp();
+  const mine=s.jobs.filter(j=>j.teknisi.includes(tekId));
+  const today=mine.filter(j=>j.status==='proses'||(j.jadwal===T&&j.status==='terjadwal'));
+  const next=mine.filter(j=>j.status==='terjadwal'&&j.jadwal>T).sort((a,b)=>a.jadwal.localeCompare(b.jadwal));
+  const surveys=[...s.leads.filter(l=>l.status==='survey'&&l.survey&&l.survey.surveyor===tekId&&!l.survey.hasil).map(l=>({id:l.id,nama:l.nama,tgl:l.survey.tgl,jam:l.survey.jam,ket:l.kebutuhan,alamat:l.alamat})),
+    ...s.jobs.filter(j=>j.status==='menunggu survey'&&j.survey&&j.survey.surveyor===tekId&&!j.survey.hasil).map(j=>{const c=byId(s.customers,j.customerId);return {id:j.id,nama:c.nama,tgl:j.survey.tgl,jam:j.survey.jam||'10:00',ket:j.catatan,alamat:c.alamat}})];
+  const done=mine.filter(j=>j.status==='selesai'&&diff(j.selesaiAt,T)<=7);
+  const card=j=>{const c=byId(s.customers,j.customerId);return html`<button key=${j.id} className="tk-card" onClick=${()=>go('tugas-detail',j.id)}><div className="h"><span className="mono">${j.id}</span><${Pill} v=${j.status}/>${j.halangan&&html`<${Pill} tone="bad">Menunggu reschedule<//>`}<span style=${{marginLeft:'auto'}} className="small muted">${j.jadwal?fds(j.jadwal)+' · '+j.jam:''}</span></div><b style=${{fontSize:'15px'}}>${c.nama}</b><span className="small muted row" style=${{gap:'4px',flexWrap:'nowrap'}}>${I.pin}${c.alamat}</span><span className="small">${j.jenis}${j.rencanaUnit?' · '+j.rencanaUnit+' unit':''}</span></button>`};
+  const sec=(t,items,render)=>html`<section className="stack" style=${{gap:'10px'}}><h2 style=${{fontSize:'15px'}}>${t} <span className="tcount">${items.length}</span></h2>${items.length?html`<div className="tk-list">${items.map(render)}</div>`:html`<div className="empty">Kosong.</div>`}</section>`;
+  return html`
+    <${PageHead} title=${'Halo, '+tekName(s,tekId).split(' ')[0]} sub=${fds(T)+' · tampilan teknisi (dibuka dari HP)'}/>
+    ${sec('Hari ini',today,card)}
+    ${sec('Survey saya',surveys,x=>html`<button key=${x.id} className="tk-card" onClick=${()=>go('survey-detail',x.id)}><div className="h"><span className="mono">${x.id}</span><${Pill} v="survey"/><span style=${{marginLeft:'auto'}} className="small muted">${fds(x.tgl)} · ${x.jam}</span></div><b style=${{fontSize:'15px'}}>${x.nama}</b><span className="small muted">${x.alamat}</span><span className="small">${x.ket}</span></button>`)}
+    ${sec('Mendatang',next,card)}
+    ${sec('Selesai 7 hari terakhir',done,card)}`;
+}
+function HalanganForm({id}){
+  const {act,closeModal,tekId}=useApp();const [a,setA]=useState('Customer tidak di lokasi');const [c,setC]=useState('');
+  return html`<div className="form"><${Field} label="Halangan"><select className="input" id="hl-a" value=${a} onChange=${e=>setA(e.target.value)}>${['Customer tidak di lokasi','Cuaca / hujan','Material kurang','Akses lokasi tertutup','Lainnya'].map(o=>html`<option key=${o}>${o}</option>`)}</select><//><${Field} label="Keterangan"><textarea className="input" id="hl-c" value=${c} onChange=${e=>setC(e.target.value)}></textarea><//>
+    <${FormFoot} ok=${true} label="Laporkan ke admin" onSubmit=${()=>{act(d=>{byId(d.jobs,id).halangan={alasan:a,catatan:c,tgl:T,oleh:tekId}},'Halangan terkirim. Admin akan reschedule');closeModal()}}/></div>`;
+}
+function TugasDetail({id}){
+  const {s,act,go,openModal}=useApp();const j=byId(s.jobs,id);if(!j)return html`<p>Tugas tidak ditemukan.</p>`;
+  const c=byId(s.customers,j.customerId);const units=unitsOfJob(s,j);const k=j.klaimId&&byId(s.klaim,j.klaimId);
+  const canFinish=j.foto.length>0&&j.konfirmasi;
+  return html`
+    <${Back} to="tugas" label="Tugas saya"/>
+    <${PageHead} title=${c.nama} sub=${html`<span className="mono">${j.id}</span> · ${j.jenis} · ${j.jadwal?fds(j.jadwal)+' '+j.jam:''}`} actions=${html`<${Pill} v=${j.status}/>`}/>
+    ${j.halangan&&html`<${Note} tone="bad" icon=${I.alert}>Halangan dilaporkan: ${j.halangan.alasan}. Menunggu admin menjadwalkan ulang.<//>`}
+    <div className="grid2">
+      <div className="stack">
+        ${j.status==='terjadwal'&&html`<div className="card"><h2>Mulai pekerjaan</h2><button className="btn primary lg" disabled=${!!j.halangan} onClick=${()=>act(d=>{byId(d.jobs,id).status='proses'},'Status: proses. Selamat bekerja')}>Saya sudah di lokasi · mulai</button><button className="btn" onClick=${()=>openModal({title:'Laporkan halangan',body:html`<${HalanganForm} id=${id}/>`})}>Ada halangan</button></div>`}
+        ${j.status==='proses'&&html`<div className="card"><h2>Selesaikan pekerjaan</h2>
+          ${k&&!k.keputusan&&html`<${Note} tone="warn">Klaim garansi: laporkan penyebab ke admin (akibat pengerjaan atau pemakaian) sebelum menutup job.<//>`}
+          <div className="field"><span className="flabel">1. Foto bukti hasil (wajib)</span><${PhotoUploader} id=${id}/></div>
+          <div className="field"><span className="flabel">2. Konfirmasi customer</span><${Check} id="td-konf" checked=${j.konfirmasi} onChange=${x=>act(d=>{byId(d.jobs,id).konfirmasi=x})} title="Customer sudah cek & setuju hasil" desc="Unit menyala normal, area kerja bersih"/></div>
+          ${j.jalur==='corporate'&&html`<div className="field"><span className="flabel">3. BAST ditandatangani</span><${BastUploader} id=${id}/></div>`}
+          <${Note}>Kirim data unit (merk, no. seri, lokasi pasang) ke admin via WA. Admin yang menginput ke sistem.<//>
+          <button className="btn primary lg" disabled=${!canFinish||(k&&!k.keputusan)} onClick=${()=>act(d=>completeJob(d,byId(d.jobs,id)),'Job selesai & dilaporkan ke admin')}>${I.check} Tandai selesai</button>
+          <button className="btn" onClick=${()=>openModal({title:'Laporkan halangan',body:html`<${HalanganForm} id=${id}/>`})}>Ada halangan / lanjut hari lain</button></div>`}
+        ${j.status==='selesai'&&html`<div className="card"><h2>Pembayaran customer</h2>
+          ${j.jalur==='personal'&&!['lunas','gratis'].includes(j.bayar.status)&&j.nilai>0?html`<p>Tunjukkan QRIS atau nomor rekening perusahaan ke customer. Tagihan: <b className="num">${rp(sisaBayar(j))}</b></p><${PayInfo}/><${Note} tone="warn" icon=${I.alert}><b>Teknisi tidak menerima uang tunai.</b> Admin memverifikasi mutasi lalu menandai lunas.<//>`
+          :j.jalur==='corporate'?html`<p className="small muted">Pelunasan ditagih admin berdasarkan BAST. Teknisi tidak perlu menagih.</p>`
+          :html`<${Note} tone="ok" icon=${I.check}>${j.bayar.status==='gratis'?'Gratis (klaim garansi).':'Sudah lunas.'}<//>`}</div>`}
+        ${j.status==='selesai'&&html`<div className="card"><h2>Foto bukti</h2><${PhotoUploader} id=${id} readOnly/></div>`}
+      </div>
+      <div className="stack">
+        <div className="card"><h2>Lokasi & kontak</h2><dl className="kv"><dt>Alamat</dt><dd>${c.alamat}</dd>${c.pic?html`<dt>PIC</dt><dd>${c.pic}</dd>`:''}<dt>No. HP</dt><dd className="mono" style=${{userSelect:'all'}}>${c.hp}</dd></dl></div>
+        <div className="card"><h2>Detail pekerjaan</h2><dl className="kv"><dt>Jenis</dt><dd>${j.jenis}</dd>${j.rencanaUnit?html`<dt>Rencana unit</dt><dd>${j.rencanaUnit} unit</dd>`:''}<dt>Tim</dt><dd>${j.teknisi.map(t=>tekName(s,t)).join(', ')}</dd>${j.catatan?html`<dt>Catatan</dt><dd>${j.catatan}</dd>`:''}${k?html`<dt>Keluhan</dt><dd>${k.keluhan}</dd>`:''}</dl>
+          ${units.length>0&&html`<div className="divider"></div><b className="small">Unit terkait</b>${units.map(u=>html`<div key=${u.id} className="small">${u.merk} ${u.tipe} · ${u.lokasi} <span className="mono muted">${u.seri}</span></div>`)}`}</div>
+      </div>
+    </div>`;
+}
+function SurveyDetail({id}){
+  const {s,act,go}=useApp();const isJob=id.startsWith('J-');
+  const o=isJob?byId(s.jobs,id):byId(s.leads,id);const [h,setH]=useState(o&&o.survey?o.survey.hasil||'':'');if(!o||!o.survey)return html`<p>Survey tidak ditemukan.</p>`;
+  const nama=isJob?byId(s.customers,o.customerId).nama:o.nama;const alamat=isJob?byId(s.customers,o.customerId).alamat:o.alamat;
+  return html`
+    <${Back} to="tugas" label="Tugas saya"/>
+    <${PageHead} title=${'Survey · '+nama} sub=${html`<span className="mono">${id}</span> · ${fds(o.survey.tgl)} ${o.survey.jam||''}`} actions=${html`<${Pill} v="survey"/>`}/>
+    <div className="grid2"><div className="card"><h2>Hasil survey</h2><${Field} label="Catatan lapangan" hint="Jumlah titik, kondisi listrik, jalur pipa, kebutuhan material. Admin memakainya untuk menyusun penawaran."><textarea className="input" id="sd-h" style=${{minHeight:'140px'}} value=${h} onChange=${e=>setH(e.target.value)}></textarea><//>
+      <button className="btn primary lg" disabled=${!h.trim()} onClick=${()=>{act(d=>{const x=isJob?byId(d.jobs,id):byId(d.leads,id);x.survey.hasil=h},'Hasil survey terkirim ke admin');go('tugas')}}>Kirim hasil survey</button></div>
+      <div className="card"><h2>Lokasi</h2><dl className="kv"><dt>Alamat</dt><dd>${alamat}</dd><dt>Kebutuhan</dt><dd>${isJob?o.catatan:o.kebutuhan}</dd>${!isJob?html`<dt>Kontak</dt><dd className="mono">${o.hp}</dd>`:''}</dl></div></div>`;
+}
+
+/* ================= APP ================= */
+const NAV_ADMIN=[['dashboard','Dashboard','grid'],['alur','Alur proses','flow'],['-','Pipeline'],['lead','Lead','inbox'],['job','Job','wrench'],['kalender','Kalender teknisi','cal'],['-','Keuangan'],['tagihan','Tagihan & piutang','wallet'],['-','After-sales'],['customer','Customer & unit AC','users'],['garansi','Garansi & klaim','shield'],['reminder','Reminder servis','bell']];
+const NAV_TEK=[['tugas','Tugas saya','clip'],['kalender','Kalender saya','cal'],['alur','Alur proses','flow']];
+function App(){
+  const [s,setS]=useState(load);
+  const [role,setRole]=useState('admin');const [tekId,setTekId]=useState('T1');
+  const [route,setRoute]=useState({page:'dashboard'});
+  const [modal,setModal]=useState(null);const [toast,setToast]=useState(null);const [drawer,setDrawer]=useState(false);
+  useEffect(()=>persist(s),[s]);
+  const notify=m=>{setToast(m);clearTimeout(window.__tt);window.__tt=setTimeout(()=>setToast(null),2800)};
+  const act=(fn,msg)=>{setS(p=>{const d=structuredClone(p);fn(d);return d});if(msg)notify(msg)};
+  const go=(page,id)=>{setRoute({page,id});setDrawer(false);window.scrollTo(0,0)};
+  const switchRole=r=>{setRole(r);go(r==='teknisi'?'tugas':'dashboard')};
+  const ctx={s,act,go,role,tekId,notify,openModal:setModal,closeModal:()=>setModal(null)};
+  const nav=role==='teknisi'?NAV_TEK:NAV_ADMIN;
+  const parent={'lead-detail':'lead','job-detail':'job','customer-detail':'customer','tugas-detail':'tugas','survey-detail':'tugas'}[route.page]||route.page;
+  const badges={lead:s.leads.filter(l=>l.status==='baru').length,tagihan:s.jobs.filter(overdue24).length,garansi:s.klaim.filter(k=>k.status==='diajukan').length,reminder:reminderUnits(s).filter(u=>!openJobFor(s,u.customerId)&&!(s.reminderLog[u.customerId]&&s.reminderLog[u.customerId].status==='ditolak')).length,
+    job:s.jobs.filter(j=>j.halangan).length,tugas:s.jobs.filter(j=>j.teknisi.includes(tekId)&&(j.status==='proses'||(j.jadwal===T&&j.status==='terjadwal'))).length};
+  const P={dashboard:Dashboard,alur:Alur,lead:LeadList,'lead-detail':LeadDetail,job:JobList,'job-detail':JobDetail,kalender:Kalender,tagihan:Tagihan,customer:CustomerList,'customer-detail':CustomerDetail,garansi:Garansi,reminder:Reminder,tugas:TugasSaya,'tugas-detail':TugasDetail,'survey-detail':SurveyDetail}[route.page]||Dashboard;
+  return html`<${Ctx.Provider} value=${ctx}><div className="app">
+    <aside className=${'side'+(drawer?' open':'')}>
+      <div className="brand"><span className="brand-mark">${I.snow}</span><div><b>Sehawa</b><span>Operasional internal</span></div></div>
+      ${nav.map((n,i)=>n[0]==='-'?html`<div key=${i} className="nav-sep">${n[1]}</div>`:html`<button key=${n[0]} className=${'nav'+(parent===n[0]?' on':'')} onClick=${()=>go(n[0])}>${I[n[2]]}<span>${n[1]}</span>${badges[n[0]]?html`<span className="badge">${badges[n[0]]}</span>`:''}</button>`)}
+      <div className="side-foot"><span className="small muted">Data contoh tersimpan di browser ini dan kembali ke awal setiap hari.</span><button className="btn sm" onClick=${()=>{setS(seed());go(role==='teknisi'?'tugas':'dashboard');notify('Data contoh dikembalikan ke awal')}}>Reset data contoh</button></div>
+    </aside>
+    <div className=${'scrim'+(drawer?' open':'')} onClick=${()=>setDrawer(false)}></div>
+    <div className="main">
+      <header className="top">
+        <button className="icon-btn menu-btn" aria-label="Buka menu" onClick=${()=>setDrawer(true)}>${I.menu}</button>
+        <span className="proto">Prototipe</span>
+        <div className="role-wrap"><span className="small muted">Lihat sebagai</span><${Seg} value=${role} onChange=${switchRole} options=${[['admin','Admin'],['teknisi','Teknisi'],['owner','Owner']]}/>
+          ${role==='teknisi'&&html`<select className="input" style=${{width:'auto',padding:'5px 10px'}} id="tek-sel" aria-label="Pilih teknisi" value=${tekId} onChange=${e=>{setTekId(e.target.value);go('tugas')}}>${s.teknisi.map(t=>html`<option key=${t.id} value=${t.id}>${t.nama}</option>`)}</select>`}</div>
+      </header>
+      <main className="content"><${P} key=${route.page+(route.id||'')} id=${route.id}/></main>
+    </div>
+    ${modal&&html`<${Modal} title=${modal.title} wide=${modal.wide} onClose=${()=>setModal(null)}>${modal.body}<//>`}
+    ${toast&&html`<div className="toast" role="status">${I.check}${toast}</div>`}
+  </div><//>`;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+</script>
