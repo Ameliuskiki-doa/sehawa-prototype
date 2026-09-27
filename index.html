@@ -74,8 +74,8 @@ a{color:var(--accent)}
 @media (max-width:900px){
   .app{grid-template-columns:1fr}
   .side{position:fixed;inset:0 auto 0 0;width:270px;z-index:50;transform:translateX(-105%);transition:transform .2s;box-shadow:var(--shadow)}
-  .side.open{transform:none}
-  .scrim.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40}
+  .side.is-open{transform:none}
+  .scrim.is-open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40}
   .top{padding:10px 16px}
   .top .menu-btn{display:inline-grid}
   .content{padding:18px 16px 72px}
@@ -283,6 +283,28 @@ textarea.input{min-height:78px;resize:vertical}
 .timeline{display:grid;gap:10px;list-style:none;margin:0;padding:0}
 .timeline li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;font-size:13px}
 .timeline .d{color:var(--muted);font-variant-numeric:tabular-nums}
+/* mobile: tabel jadi kartu, KPI 2 kolom, header satu baris */
+@media (max-width:640px){
+  .table-wrap table thead{display:none}
+  .table-wrap table,.table-wrap tbody{display:block}
+  .table-wrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .table-wrap tr:last-child{border-bottom:0}
+  .table-wrap td{display:block;border:0;padding:0;min-width:0}
+  .table-wrap td[data-label]::before{content:attr(data-label);display:block;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .table-wrap td:has(.t1),.table-wrap td[colspan]{grid-column:1/-1}
+  .table-wrap td:has(.t1)::before{display:none}
+  .table-wrap td.r{text-align:left}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .kpi{padding:12px}
+  .kpi .v{font-size:20px}
+  .kpi .l{font-size:10.5px}
+  .top{flex-wrap:nowrap;gap:8px}
+  .role-wrap>.small{display:none}
+  .seg button{padding:5px 9px}
+  .page-head h1{font-size:21px}
+  .card{padding:14px}
+  .kv{grid-template-columns:110px minmax(0,1fr)}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -1214,6 +1236,7 @@ function App(){
   useEffect(()=>{const f=()=>setNotes(readNotes());window.addEventListener('hashchange',f);return()=>window.removeEventListener('hashchange',f)},[]);
   const [modal,setModal]=useState(null);const [toast,setToast]=useState(null);const [drawer,setDrawer]=useState(false);
   useEffect(()=>persist(s),[s]);
+  useEffect(()=>{document.querySelectorAll('.table-wrap table').forEach(t=>{const hs=[...t.querySelectorAll('thead th')].map(th=>th.textContent.trim());t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{if(hs[i]&&!(td.colSpan>1))td.dataset.label=hs[i]}))})});
   const notify=m=>{setToast(m);clearTimeout(window.__tt);window.__tt=setTimeout(()=>setToast(null),2800)};
   const act=(fn,msg)=>{setS(p=>{const d=structuredClone(p);fn(d);return d});if(msg)notify(msg)};
   const go=(page,id)=>{setRoute({page,id});setDrawer(false);window.scrollTo(0,0)};
@@ -1226,12 +1249,12 @@ function App(){
   const P={dashboard:Dashboard,alur:Alur,lead:LeadList,'lead-detail':LeadDetail,job:JobList,'job-detail':JobDetail,kalender:Kalender,tagihan:Tagihan,customer:CustomerList,'customer-detail':CustomerDetail,garansi:Garansi,reminder:Reminder,tugas:TugasSaya,'tugas-detail':TugasDetail,'survey-detail':SurveyDetail}[route.page]||Dashboard;
   const Page=(!notes&&route.page==='alur')?(role==='teknisi'?TugasSaya:Dashboard):P;
   return html`<${Ctx.Provider} value=${ctx}><div className="app">
-    <aside className=${'side'+(drawer?' open':'')}>
+    <aside className=${'side'+(drawer?' is-open':'')}>
       <div className="brand"><span className="brand-mark">${I.snow}</span><div><b>Sehawa</b><span>Operasional internal</span></div></div>
       ${nav.map((n,i)=>n[0]==='-'?html`<div key=${i} className="nav-sep">${n[1]}</div>`:html`<button key=${n[0]} className=${'nav'+(parent===n[0]?' on':'')} onClick=${()=>go(n[0])}>${I[n[2]]}<span>${n[1]}</span>${badges[n[0]]?html`<span className="badge">${badges[n[0]]}</span>`:''}</button>`)}
       <div className="side-foot"><span className="small muted">Data contoh tersimpan di browser ini dan kembali ke awal setiap hari.</span><button className="btn sm" onClick=${()=>{setS(seed());go(role==='teknisi'?'tugas':'dashboard');notify('Data contoh dikembalikan ke awal')}}>Reset data contoh</button></div>
     </aside>
-    <div className=${'scrim'+(drawer?' open':'')} onClick=${()=>setDrawer(false)}></div>
+    <div className=${'scrim'+(drawer?' is-open':'')} onClick=${()=>setDrawer(false)}></div>
     <div className="main">
       <header className="top">
         <button className="icon-btn menu-btn" aria-label="Buka menu" onClick=${()=>setDrawer(true)}>${I.menu}</button>
