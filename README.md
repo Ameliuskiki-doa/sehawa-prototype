@@ -5,3 +5,4 @@ Prototipe klik-able aplikasi operasional internal Sehawa (jasa instalasi & servi
 - Satu file: `index.html` (React 18 + htm via CDN, tanpa build step). Buka langsung di browser atau serve statis.
 - Peran: Admin, Teknisi, Owner (pilih di kanan atas).
 - Semua data adalah contoh, disimpan di `localStorage` browser dan kembali ke awal setiap hari.
+- Halaman **Alur proses** dan catatan keputusan yang belum disepakati disembunyikan secara default. Tampilkan dengan menambahkan `#catatan` di akhir URL (mis. `https://prototype.sehawa.id/#catatan`).

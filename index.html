@@ -522,7 +522,7 @@ const DECISIONS=[
   {n:3,title:'Disiplin follow-up lead',q:'Berapa kali follow-up sebelum lead ditandai batal?',why:'Tanpa aturan, pipeline penuh lead "dikontak" yang sudah mati, dan laporan owner jadi menyesatkan.',page:'lead'},
   {n:4,title:'Detail reminder servis rutin',q:'Interval (3 bulan?), siapa eksekusi, dan kapan modulnya dibangun.',why:'Peluang pendapatan berulang. Datanya sudah ada (tanggal_pasang), tinggal dipakai.',page:'reminder'},
 ];
-function Open({n,assume}){const d=DECISIONS[n-1];return html`<div className="open"><div><span className="open-tag">Belum disepakati #${n}</span><b>${d.title}</b></div><p>${d.q}</p>${assume&&html`<p className="open-a">Asumsi di prototipe: ${assume}</p>`}</div>`}
+function Open({n,assume}){const {notes}=useApp();if(!notes)return null;const d=DECISIONS[n-1];return html`<div className="open"><div><span className="open-tag">Belum disepakati #${n}</span><b>${d.title}</b></div><p>${d.q}</p>${assume&&html`<p className="open-a">Asumsi di prototipe: ${assume}</p>`}</div>`}
 function Modal({title,wide,children,onClose}){
   useEffect(()=>{const f=e=>{if(e.key==='Escape')onClose()};window.addEventListener('keydown',f);return()=>window.removeEventListener('keydown',f)},[]);
   return html`<div className="mback" onMouseDown=${e=>{if(e.target===e.currentTarget)onClose()}}><div className=${'modal'+(wide?' wide':'')} role="dialog" aria-modal="true" aria-label=${title}><div className="mhead"><h3>${title}</h3><button className="icon-btn" onClick=${onClose} aria-label="Tutup">${I.x}</button></div><div className="mbody">${children}</div></div></div>`;
@@ -595,7 +595,7 @@ function Dashboard(){
   tagihan.forEach(j=>todo.push({c:'var(--bad)',t:`Tagihan personal lewat 1×24 jam · ${rp(sisaBayar(j))}`,m:`${j.id} · ${byId(s.customers,j.customerId).nama} · selesai ${rel(j.selesaiAt)}`,a:'Buka',go:['job-detail',j.id]}));
   klaimOpen.filter(k=>k.status==='diajukan').forEach(k=>todo.push({c:'var(--warn)',t:'Klaim garansi baru perlu dijadwalkan cek',m:`${byId(s.customers,k.customerId).nama} · ${k.keluhan}`,a:'Tangani',go:['garansi']}));
   s.leads.filter(l=>l.status==='baru').forEach(l=>todo.push({c:'var(--info)',t:`Lead baru belum dikontak · ${l.nama}`,m:l.kebutuhan,a:'Hubungi',go:['lead-detail',l.id]}));
-  s.leads.filter(l=>l.status==='dikontak'&&l.followups.length>=3).forEach(l=>todo.push({c:'var(--warn)',t:`${l.followups.length}× follow-up tanpa progres · ${l.nama}`,m:'Lanjutkan atau tandai batal (aturan #3 belum disepakati)',a:'Tinjau',go:['lead-detail',l.id]}));
+  s.leads.filter(l=>l.status==='dikontak'&&l.followups.length>=3).forEach(l=>todo.push({c:'var(--warn)',t:`${l.followups.length}× follow-up tanpa progres · ${l.nama}`,m:'Lanjutkan follow-up atau tandai batal',a:'Tinjau',go:['lead-detail',l.id]}));
   s.leads.filter(l=>l.status==='survey'&&l.survey&&l.survey.hasil).forEach(l=>todo.push({c:'var(--violet)',t:`Hasil survey masuk · ${l.nama}`,m:'Susun penawaran resmi',a:'Buka',go:['lead-detail',l.id]}));
   s.leads.filter(l=>l.status==='penawaran'&&l.penawaran&&l.penawaran.status==='disetujui').forEach(l=>todo.push({c:'var(--ok)',t:`Penawaran disetujui, menunggu DP · ${l.nama}`,m:rp(l.penawaran.nilai),a:'Catat DP',go:['lead-detail',l.id]}));
   s.leads.filter(l=>l.status==='deal'&&!l.jobId).forEach(l=>todo.push({c:'var(--ok)',t:`Deal · belum dibuat Customer + Job · ${l.nama}`,m:'Konversi lead dan assign teknisi',a:'Konversi',go:['lead-detail',l.id]}));
@@ -802,7 +802,7 @@ function KonversiForm({id}){
   return html`<${JobForm} before=${before} beforeOk=${c.nama.trim()&&c.hp.trim()} init=${{nilai,catatan:l.kebutuhan}} jenisOpts=${['Instalasi','Servis','Cuci AC','Perbaikan']} submitLabel="Buat Customer + Job" onSubmit=${submit}/>`;
 }
 function LeadDetail({id}){
-  const {s,act,go,openModal}=useApp();
+  const {s,act,go,openModal,notes}=useApp();
   const l=byId(s.leads,id);if(!l)return html`<p>Lead tidak ditemukan.</p>`;
   const M=(title,body,wide)=>()=>openModal({title,body,wide});
   const corp=l.jalur==='corporate';
@@ -812,7 +812,7 @@ function LeadDetail({id}){
   let next=null;
   if(l.status==='baru')next=html`<p className="small muted">Hubungi prospek via WhatsApp, lalu catat hasilnya.</p><button className="btn primary" onClick=${M('Catat kontak pertama',html`<${FollowupForm} id=${id}/>`)}>Tandai sudah dikontak</button>`;
   else if(l.status==='dikontak')next=html`
-    ${!corp&&html`<div className="open" style=${{borderColor:'color-mix(in srgb,var(--warn) 55%,var(--line))',background:'color-mix(in srgb,var(--warn) 5%,transparent)'}}><div><span className="open-tag" style=${{color:'var(--warn)'}}>Titik keputusan</span><b>Job bernilai besar?</b></div><p className="small muted">Admin boleh mengaktifkan survey dan/atau DP untuk job ini, diputuskan per kasus.</p>
+    ${!corp&&html`<div className="open" style=${{borderColor:'color-mix(in srgb,var(--warn) 55%,var(--line))',background:'color-mix(in srgb,var(--warn) 5%,transparent)'}}><div>${notes&&html`<span className="open-tag" style=${{color:'var(--warn)'}}>Titik keputusan</span>`}<b>Job bernilai besar?</b></div><p className="small muted">Admin boleh mengaktifkan survey dan/atau DP untuk job ini, diputuskan per kasus.</p>
       <${Check} id="lf-ps" checked=${!!l.perluSurvey} onChange=${x=>setFlag('perluSurvey',x)} title="Aktifkan survey" desc="Teknisi senior cek lokasi dulu"/><${Check} id="lf-pd" checked=${!!l.perluDP} onChange=${x=>setFlag('perluDP',x)} title="Aktifkan DP" desc="Customer bayar DP sebelum dikerjakan"/></div>`}
     <div className="row">
       ${needSurvey?html`<button className="btn primary" onClick=${M('Jadwalkan survey lokasi',html`<${SurveyForm} id=${id}/>`)}>Jadwalkan survey</button>`
@@ -1209,18 +1209,22 @@ function App(){
   const [s,setS]=useState(load);
   const [role,setRole]=useState('admin');const [tekId,setTekId]=useState('T1');
   const [route,setRoute]=useState({page:'dashboard'});
+  const readNotes=()=>{try{return location.hash==='#catatan'}catch(e){return false}};
+  const [notes,setNotes]=useState(readNotes);
+  useEffect(()=>{const f=()=>setNotes(readNotes());window.addEventListener('hashchange',f);return()=>window.removeEventListener('hashchange',f)},[]);
   const [modal,setModal]=useState(null);const [toast,setToast]=useState(null);const [drawer,setDrawer]=useState(false);
   useEffect(()=>persist(s),[s]);
   const notify=m=>{setToast(m);clearTimeout(window.__tt);window.__tt=setTimeout(()=>setToast(null),2800)};
   const act=(fn,msg)=>{setS(p=>{const d=structuredClone(p);fn(d);return d});if(msg)notify(msg)};
   const go=(page,id)=>{setRoute({page,id});setDrawer(false);window.scrollTo(0,0)};
   const switchRole=r=>{setRole(r);go(r==='teknisi'?'tugas':'dashboard')};
-  const ctx={s,act,go,role,tekId,notify,openModal:setModal,closeModal:()=>setModal(null)};
-  const nav=role==='teknisi'?NAV_TEK:NAV_ADMIN;
+  const ctx={s,act,go,role,tekId,notes,notify,openModal:setModal,closeModal:()=>setModal(null)};
+  const nav=(role==='teknisi'?NAV_TEK:NAV_ADMIN).filter(n=>notes||n[0]!=='alur');
   const parent={'lead-detail':'lead','job-detail':'job','customer-detail':'customer','tugas-detail':'tugas','survey-detail':'tugas'}[route.page]||route.page;
   const badges={lead:s.leads.filter(l=>l.status==='baru').length,tagihan:s.jobs.filter(overdue24).length,garansi:s.klaim.filter(k=>k.status==='diajukan').length,reminder:reminderUnits(s).filter(u=>!openJobFor(s,u.customerId)&&!(s.reminderLog[u.customerId]&&s.reminderLog[u.customerId].status==='ditolak')).length,
     job:s.jobs.filter(j=>j.halangan).length,tugas:s.jobs.filter(j=>j.teknisi.includes(tekId)&&(j.status==='proses'||(j.jadwal===T&&j.status==='terjadwal'))).length};
   const P={dashboard:Dashboard,alur:Alur,lead:LeadList,'lead-detail':LeadDetail,job:JobList,'job-detail':JobDetail,kalender:Kalender,tagihan:Tagihan,customer:CustomerList,'customer-detail':CustomerDetail,garansi:Garansi,reminder:Reminder,tugas:TugasSaya,'tugas-detail':TugasDetail,'survey-detail':SurveyDetail}[route.page]||Dashboard;
+  const Page=(!notes&&route.page==='alur')?(role==='teknisi'?TugasSaya:Dashboard):P;
   return html`<${Ctx.Provider} value=${ctx}><div className="app">
     <aside className=${'side'+(drawer?' open':'')}>
       <div className="brand"><span className="brand-mark">${I.snow}</span><div><b>Sehawa</b><span>Operasional internal</span></div></div>
@@ -1231,11 +1235,11 @@ function App(){
     <div className="main">
       <header className="top">
         <button className="icon-btn menu-btn" aria-label="Buka menu" onClick=${()=>setDrawer(true)}>${I.menu}</button>
-        <span className="proto">Prototipe</span>
+        <span className="proto">Prototipe</span>${notes&&html`<span className="proto" style=${{color:'var(--violet)',borderColor:'var(--violet)'}}>Catatan presenter</span>`}
         <div className="role-wrap"><span className="small muted">Lihat sebagai</span><${Seg} value=${role} onChange=${switchRole} options=${[['admin','Admin'],['teknisi','Teknisi'],['owner','Owner']]}/>
           ${role==='teknisi'&&html`<select className="input" style=${{width:'auto',padding:'5px 10px'}} id="tek-sel" aria-label="Pilih teknisi" value=${tekId} onChange=${e=>{setTekId(e.target.value);go('tugas')}}>${s.teknisi.map(t=>html`<option key=${t.id} value=${t.id}>${t.nama}</option>`)}</select>`}</div>
       </header>
-      <main className="content"><${P} key=${route.page+(route.id||'')} id=${route.id}/></main>
+      <main className="content"><${Page} key=${route.page+(route.id||'')} id=${route.id}/></main>
     </div>
     ${modal&&html`<${Modal} title=${modal.title} wide=${modal.wide} onClose=${()=>setModal(null)}>${modal.body}<//>`}
     ${toast&&html`<div className="toast" role="status">${I.check}${toast}</div>`}
